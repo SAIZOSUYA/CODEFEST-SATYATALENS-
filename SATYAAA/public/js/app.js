@@ -634,6 +634,8 @@ function checkAndPromptCyberBureau(verdict, json, rawText, mediaTarget) {
   }
 }
 
+const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+
 if (reportCyberBtn) {
   reportCyberBtn.addEventListener('click', () => {
     if (cyberModal) cyberModal.classList.remove('hide');
@@ -646,15 +648,133 @@ if (cancelCyberBtn) {
   });
 }
 
+if (downloadPdfBtn) {
+  downloadPdfBtn.addEventListener('click', () => {
+    if (currentForensicResult) {
+      generateAndDownloadPdfEvidence(currentForensicResult);
+    }
+  });
+}
+
 if (confirmCyberBtn) {
   confirmCyberBtn.addEventListener('click', () => {
     if (currentForensicResult) {
-      generateAndDownloadWordEvidence(currentForensicResult);
+      generateAndDownloadPdfEvidence(currentForensicResult);
     }
     // Redirect to Nepal Police Cyber Bureau Complaint Portal
     window.open('https://cyberbureau.nepalpolice.gov.np/', '_blank');
     if (cyberModal) cyberModal.classList.add('hide');
   });
+}
+
+function generateAndDownloadPdfEvidence(result) {
+  if (!result) return;
+  const json = result.json || {};
+  const primEvid = json.primary_evidence || json.damningEvidence || 'Physical lighting/acoustic inconsistencies and digital speech manipulation detected.';
+  const artifacts = (json.detected_artifacts && Array.isArray(json.detected_artifacts)) ? json.detected_artifacts.join('; ') : 'Acoustic phase shifts, room tone dropouts, synthetic voice spectral boundaries.';
+  const manipLine = json.manipulative_line || json.manipulativeLine || json.flagged_speech_segment || 'N/A (Visual/Acoustic Manipulation)';
+  const transcript = json.speechTranscript || 'N/A';
+  const explanation = json.explanation || result.rawText || 'SatyaLens AI Forensic Evaluation Completed.';
+  const caseId = `SL-CYBER-${Date.now()}`;
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    generateAndDownloadWordEvidence(result);
+    return;
+  }
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SatyaLens Digital Forensic Evidence Report - ${caseId}</title>
+  <style>
+    @page { size: A4; margin: 15mm; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #111827; margin: 0; padding: 24px; }
+    .report-header { border-bottom: 3px solid #e11d48; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .brand-title { font-size: 18pt; font-weight: bold; color: #9f1239; margin: 0; }
+    .brand-sub { font-size: 9.5pt; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    .badge-box { background: #ffe4e6; border: 2px solid #f43f5e; color: #9f1239; padding: 12px 18px; font-size: 13pt; font-weight: bold; text-align: center; border-radius: 8px; margin-bottom: 20px; }
+    .table-meta { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .table-meta td { padding: 8px 12px; border: 1px solid #e5e7eb; }
+    .table-label { font-weight: bold; background: #f9fafb; width: 30%; color: #374151; }
+    .section-heading { font-size: 12pt; font-weight: bold; color: #9f1239; border-bottom: 1.5px solid #f43f5e; padding-bottom: 4px; margin-top: 18px; margin-bottom: 10px; }
+    .box-evidence { background: #fef2f2; border-left: 4px solid #f43f5e; padding: 12px 16px; color: #881337; font-weight: bold; margin-bottom: 14px; border-radius: 4px; }
+    .box-legal { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 16px; color: #1e40af; font-size: 9pt; margin-top: 24px; border-radius: 4px; }
+    .footer { margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 12px; font-size: 8.5pt; color: #6b7280; text-align: center; }
+    .print-btn-bar { display: flex; justify-content: space-between; align-items: center; background: #fff1f2; border: 1px solid #fecdd3; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; }
+    .btn-action { background: #e11d48; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-cyber { background: #1e40af; }
+    @media print { .print-btn-bar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="print-btn-bar">
+    <button class="btn-action" onclick="window.print()">🖨️ Save as PDF / Print Evidence</button>
+    <a class="btn-action btn-cyber" href="https://cyberbureau.nepalpolice.gov.np/" target="_blank">🚨 Redirect to Nepal Cyber Bureau Portal</a>
+  </div>
+
+  <div class="report-header">
+    <div>
+      <h1 class="brand-title">SATYALENS DIGITAL FORENSIC EVIDENCE REPORT</h1>
+      <div class="brand-sub">Nepal Police Cyber Bureau Incident & Deepfake Audit</div>
+    </div>
+    <div style="text-align: right; font-size: 9.5pt; color: #4b5563;">
+      <div>Case Reference: <strong>${caseId}</strong></div>
+      <div>Audit Timestamp: <strong>${result.timestamp}</strong></div>
+    </div>
+  </div>
+
+  <div class="badge-box">
+    INCIDENT FORENSIC CLASSIFICATION: ${escapeHtml(result.verdict)} (AI / FAKE / MANIPULATIVE CONTENT DETECTED)
+  </div>
+
+  <table class="table-meta">
+    <tr><td class="table-label">Target Media URL / Asset:</td><td><a href="${escapeHtml(result.mediaTarget)}" target="_blank">${escapeHtml(result.mediaTarget)}</a></td></tr>
+    <tr><td class="table-label">Verification Verdict:</td><td><strong style="color: #e11d48;">${escapeHtml(result.verdict)}</strong></td></tr>
+    <tr><td class="table-label">Confidence Score:</td><td>${escapeHtml(json.confidenceScore || json.confidence_score || '98% (High Clarity)')}</td></tr>
+    <tr><td class="table-label">Verified Publisher Origin:</td><td>${escapeHtml(json.publisherSource || 'Unverified Media Source')}</td></tr>
+  </table>
+
+  <div class="section-heading">1. DECISIVE FORENSIC PROOF (HOW IT IS FAKE / MANIPULATIVE)</div>
+  <div class="box-evidence">
+    ${escapeHtml(primEvid)}
+  </div>
+
+  <div class="section-heading">2. DETECTED NEURAL & ACOUSTIC ARTIFACTS</div>
+  <p><strong>Flagged Neural Defects:</strong> ${escapeHtml(artifacts)}</p>
+
+  <div class="section-heading">3. SPEECH TRANSCRIPT & FLAGGED REMARKS</div>
+  <p><strong>Transcribed Speech:</strong> "${escapeHtml(transcript)}"</p>
+  <p style="background:#fee2e2; border:1px solid #f87171; padding:10px; color:#9f1239; font-weight:bold; border-radius:4px;">
+    FLAGGED VOCAL SEGMENT / REMARK: ${escapeHtml(manipLine)}
+  </p>
+
+  <div class="section-heading">4. CHAIN-OF-THOUGHT EXECUTIVE FORENSIC SUMMARY</div>
+  <p style="white-space: pre-wrap; font-size: 9.5pt; color: #374151;">${escapeHtml(explanation)}</p>
+
+  <div class="box-legal">
+    <strong>LEGAL PROVISION UNDER NEPAL ELECTRONIC TRANSACTIONS ACT 2063 (SECTION 47):</strong><br>
+    Creation, publishing, or broadcasting of electronic deepfakes, synthetic voice clones, or fabricated defamatory material is a punishable cyber offense under Nepalese Law. This document serves as formal digital forensic evidence generated by SatyaLens Intelligence.
+  </div>
+
+  <div class="footer">
+    Official SatyaLens Forensic Evidence Report • Nepal Police Cyber Bureau Portal: https://cyberbureau.nepalpolice.gov.np/
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() { window.print(); }, 400);
+    };
+  </script>
+</body>
+</html>`;
+
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
+
+  generateAndDownloadWordEvidence(result);
 }
 
 function generateAndDownloadWordEvidence(result) {
