@@ -7,6 +7,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const datasetLoader = require('./datasetLoader');
+const fastAiDetector = require('./fastAiDetector');
 
 const multer = require('multer');
 const upload = multer({
@@ -423,7 +424,8 @@ ${parsed.explanation || text}`;
 
 function getFallbackForensicReport(url, category) {
   const lower = String(url || '').toLowerCase();
-  const isAi = Boolean(preCheckUrlClassification(url));
+  const fastAiRes = fastAiDetector.analyzeTextWithFastAiDetector(url);
+  const isAi = Boolean(preCheckUrlClassification(url)) || fastAiRes.is_ai;
   const isRick = lower.includes('dqw4w9wgxcq') || lower.includes('rick');
   const isNews = lower.includes('ekantipur') || lower.includes('onlinekhabar') || lower.includes('setopati') || lower.includes('ratopati') || lower.includes('bbc') || lower.includes('reuters');
   
@@ -454,6 +456,15 @@ function getFallbackForensicReport(url, category) {
     confidenceScore: `${confidenceScore}% (High)`,
     primary_evidence: primaryEvidence,
     damningEvidence: primaryEvidence,
+    fast_ai_detector: {
+      mode: 'contrast',
+      label: fastAiRes.label,
+      score: fastAiRes.score,
+      human_ai_scale: fastAiRes.human_ai_scale,
+      ai_probability_score: fastAiRes.ai_probability_score,
+      detected_markers: fastAiRes.detected_markers,
+      sae_features: fastAiRes.sae_features
+    },
     detected_artifacts: isAi
       ? ['Synthetic spectral frequency smoothing', 'Unnatural frame continuity / pupil geometry']
       : (verdict === 'REAL' ? [] : ['Resolution disparity around subject boundaries']),
@@ -462,7 +473,7 @@ function getFallbackForensicReport(url, category) {
       lighting_and_shadows: isAi ? 'MISMATCHED' : 'CONSISTENT',
       background_coherence: isAi ? 'LOW_QUALITY_ARTIFACTS' : 'HIGH'
     },
-    uncertainty_flag: 'Evaluated via SatyaLens Forensic Heuristic Engine & Dataset Crosscheck.',
+    uncertainty_flag: 'Evaluated via fast-ai-detector (RAID dataset contrast score + Gemma SAE features) & SatyaLens Forensic Heuristic Engine.',
     publisherSource: sourceStr,
     uploadDate: '2024-03-15',
     source_provenance: {
