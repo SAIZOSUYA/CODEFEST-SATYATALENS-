@@ -312,13 +312,25 @@ function formatReportText(text, json) {
   return formattedHtml || escapeHtml(clean).replace(/\n/g, '<br>');
 }
 
+async function fetchWithRetry(url, options = {}, retries = 2, delay = 600) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const resp = await fetch(url, options);
+      return resp;
+    } catch (err) {
+      if (i === retries) throw err;
+      await new Promise(res => setTimeout(res, delay));
+    }
+  }
+}
+
 checkBtn.addEventListener('click', async () => {
   const url = mediaUrl.value.trim();
   if (!url) return alert('Please enter a media link to verify.');
   
   setLoading(true);
   try {
-    const resp = await fetch('/api/verify-link', {
+    const resp = await fetchWithRetry('/api/verify-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
@@ -485,7 +497,7 @@ if (checkAudioBtn) {
     formData.append('audioFile', selectedAudioFile);
 
     try {
-      const resp = await fetch('/api/verify-audio', {
+      const resp = await fetchWithRetry('/api/verify-audio', {
         method: 'POST',
         body: formData
       });
