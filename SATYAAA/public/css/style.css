@@ -821,6 +821,7 @@ input:focus {
 .verify-card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 18px;
   background: rgba(18, 12, 28, 0.65);
   border: 1px solid rgba(225, 29, 72, 0.18);
@@ -828,6 +829,7 @@ input:focus {
   padding: 24px;
   backdrop-filter: blur(16px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
 }
 
 .verify-card:hover {
@@ -849,6 +851,14 @@ input:focus {
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-main);
+}
+
+.card-body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  justify-content: flex-start;
 }
 
 .sample-container {
