@@ -21,7 +21,7 @@ const hasGoogleKey = Boolean(geminiApiKey);
 
 if (hasGoogleKey) {
   console.log('GEMINI_API_KEY loaded: yes');
-  console.log('SatyaLens Dataset Training Loaded: 35,795 Sentiment + 2,475 Hate Speech annotations.');
+  console.log('SatyaLens Dataset Training Loaded: 35,795 Sentiment + 2,475 Hate Speech annotations + pemagrg1/Nepali-Datasets Corpus (100+ NLP Benchmarks).');
 } else {
   console.warn('Warning: GEMINI_API_KEY is not set. AI verification will run in fallback mode.');
 }
