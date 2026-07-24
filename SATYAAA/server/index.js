@@ -754,7 +754,7 @@ async function checkGoogleApiStatus() {
     return;
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${encodeURIComponent(geminiApiKey)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(geminiApiKey)}`;
   try {
     await axios.post(url, {
       contents: [{ parts: [{ text: 'ping' }] }]
