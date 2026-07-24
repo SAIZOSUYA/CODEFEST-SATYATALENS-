@@ -613,7 +613,12 @@ function checkAndPromptCyberBureau(verdict, json, rawText, mediaTarget) {
     vUpper === 'AI' || 
     vUpper === 'AI_GENERATED' || 
     vUpper === 'FAKE' || 
-    vUpper === 'MANIPULATIVE'
+    vUpper === 'MANIPULATIVE' ||
+    vUpper === 'SUSPICIOUS' ||
+    vUpper.includes('AI') ||
+    vUpper.includes('MANIPULATIVE') ||
+    vUpper.includes('SUSPICIOUS') ||
+    vUpper.includes('FAKE')
   );
 
   if (isManipulativeOrFake) {
