@@ -861,15 +861,41 @@ input:focus {
   justify-content: flex-start;
 }
 
-.sample-container {
+.sample-container-chips {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
 }
 
-.sample-btn {
-  font-size: 0.82rem;
-  padding: 8px 14px;
-  border-radius: 10px;
+.sample-chips-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sample-chip {
+  background: rgba(225, 29, 72, 0.08);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  color: #f3f4f6;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sample-chip:hover {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.6);
+  color: #ffffff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
 }
 
 /* Spinner Loader */
@@ -886,6 +912,66 @@ input:focus {
   to { transform: rotate(360deg); }
 }
 
+/* Telemetry Scan Console Box */
+.scan-telemetry-box {
+  background: rgba(10, 6, 18, 0.85);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  border-radius: 18px;
+  padding: 18px 22px;
+  margin-top: 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(244, 63, 94, 0.1);
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.telemetry-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #f43f5e;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.telemetry-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f43f5e;
+  box-shadow: 0 0 10px #f43f5e;
+  animation: pulse-red 1.2s infinite;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+.telemetry-bar-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.telemetry-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f43f5e 0%, #a855f7 50%, #3b82f6 100%);
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.8);
+  transition: width 0.35s ease;
+}
+
+.telemetry-status-text {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  font-family: monospace;
+}
+
 /* Result Card */
 .result-card {
   margin-top: 28px;
@@ -897,8 +983,10 @@ input:focus {
 .result-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .status-indicator {
@@ -914,6 +1002,52 @@ input:focus {
   font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
+  flex: 1;
+}
+
+.action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-icon-btn:hover {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: #ffffff;
+}
+
+/* Confidence Gauge Bar */
+.confidence-gauge-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.gauge-bar-outer {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gauge-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .result-grid {

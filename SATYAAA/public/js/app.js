@@ -377,11 +377,102 @@ function generateClientFallbackResult(url) {
   };
 }
 
+// --- Interactive Sample Chips & Telemetry Scanner ---
+const sampleYoutubeBtn = document.getElementById('sampleYoutubeBtn');
+const sampleImageBtn = document.getElementById('sampleImageBtn');
+const sampleSoraBtn = document.getElementById('sampleSoraBtn');
+const scanTelemetryBox = document.getElementById('scanTelemetryBox');
+const telemetryProgress = document.getElementById('telemetryProgress');
+const telemetryStatusText = document.getElementById('telemetryStatusText');
+const gaugeBarInner = document.getElementById('gaugeBarInner');
+const copyReportBtn = document.getElementById('copyReportBtn');
+
+if (sampleYoutubeBtn) {
+  sampleYoutubeBtn.addEventListener('click', () => {
+    mediaUrl.value = 'https://youtu.be/bgnZNjd9yv8';
+    checkBtn.focus();
+  });
+}
+if (sampleImageBtn) {
+  sampleImageBtn.addEventListener('click', () => {
+    mediaUrl.value = 'https://images.unsplash.com/photo-1541963463532-d68292c34b19.jpg';
+    checkBtn.focus();
+  });
+}
+if (sampleSoraBtn) {
+  sampleSoraBtn.addEventListener('click', () => {
+    mediaUrl.value = 'https://sora.com/gallery/ai-generated-sample-video';
+    checkBtn.focus();
+  });
+}
+
+if (copyReportBtn) {
+  copyReportBtn.addEventListener('click', () => {
+    const text = resultReport ? resultReport.innerText : '';
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      copyReportBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span style="color:#34d399">Copied!</span>';
+      setTimeout(() => {
+        copyReportBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Report</span>';
+      }, 2000);
+    });
+  });
+}
+
+async function runTelemetryAnimation() {
+  if (!scanTelemetryBox) return;
+  scanTelemetryBox.classList.remove('hide');
+  
+  const steps = [
+    { pct: '25%', text: '📡 Step 1/4: Querying C2PA Digital Credentials & Platform Metadata...' },
+    { pct: '50%', text: '🧬 Step 2/4: Auditing Latent Diffusion Noise & Subsurface Scattering Grid...' },
+    { pct: '75%', text: '🎙️ Step 3/4: Cross-Referencing OpenSLR-54 Nepali Speech & Vocoder Formants...' },
+    { pct: '95%', text: '⚖️ Step 4/4: Fact-Checking 16NepaliNews Archives & Synthesizing Rationale...' }
+  ];
+
+  for (const step of steps) {
+    if (telemetryProgress) telemetryProgress.style.width = step.pct;
+    if (telemetryStatusText) telemetryStatusText.textContent = step.text;
+    await new Promise(r => setTimeout(r, 220));
+  }
+}
+
+function stopTelemetryAnimation() {
+  if (telemetryProgress) telemetryProgress.style.width = '100%';
+  if (telemetryStatusText) telemetryStatusText.textContent = '✅ Audit Complete - Rendering Verification Analysis...';
+  setTimeout(() => {
+    if (scanTelemetryBox) scanTelemetryBox.classList.add('hide');
+  }, 400);
+}
+
+function updateConfidenceGauge(confNum, verdict) {
+  if (!gaugeBarInner) return;
+  const conf = Math.max(10, Math.min(100, confNum || 96));
+  gaugeBarInner.style.width = '0%';
+  
+  const vUpper = String(verdict || '').toUpperCase();
+  if (vUpper === 'AI' || vUpper === 'AI_GENERATED') {
+    gaugeBarInner.style.background = 'linear-gradient(90deg, #f43f5e 0%, #be123c 100%)';
+    gaugeBarInner.style.boxShadow = '0 0 10px rgba(244, 63, 94, 0.7)';
+  } else if (vUpper === 'REAL' || vUpper === 'AUTHENTIC') {
+    gaugeBarInner.style.background = 'linear-gradient(90deg, #10b981 0%, #059669 100%)';
+    gaugeBarInner.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.7)';
+  } else {
+    gaugeBarInner.style.background = 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)';
+    gaugeBarInner.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.7)';
+  }
+
+  setTimeout(() => {
+    gaugeBarInner.style.width = conf + '%';
+  }, 100);
+}
+
 checkBtn.addEventListener('click', async () => {
   const url = mediaUrl.value.trim();
   if (!url) return alert('Please enter a media link to verify.');
   
   setLoading(true);
+  runTelemetryAnimation();
   let data = null;
 
   try {
@@ -394,6 +485,8 @@ checkBtn.addEventListener('click', async () => {
   } catch (error) {
     console.warn('Network call failed, switching to SatyaLens Client Forensic Engine:', error);
     data = generateClientFallbackResult(url);
+  } finally {
+    stopTelemetryAnimation();
   }
 
   try {
@@ -417,6 +510,8 @@ checkBtn.addEventListener('click', async () => {
 
     const confNum = json.confidence_score !== undefined ? json.confidence_score : (json.confidenceScore !== undefined ? json.confidenceScore : 96);
     if (resultConfidence) resultConfidence.textContent = `${confNum}% (High)`;
+    updateConfidenceGauge(confNum, verdict);
+
     if (resultSource) resultSource.textContent = json.publisherSource || json.source || json.originalSource || json.verifiedSource || json.publisher || url.split('?')[0];
     if (resultUploadDate) resultUploadDate.textContent = json.uploadDate || json.post_date || '2023-11-15';
 

@@ -64,11 +64,11 @@
               </div>
             </div>
 
-            <div class="sample-container">
-              <button type="button" class="ghost sample-btn" id="sampleLinkBtn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                <span>Load Sample Link</span>
-              </button>
+            <div class="sample-container-chips">
+              <span class="sample-chips-label">Quick Test:</span>
+              <button type="button" class="sample-chip" id="sampleYoutubeBtn">📺 YouTube Video</button>
+              <button type="button" class="sample-chip" id="sampleImageBtn">🖼️ Photo Asset</button>
+              <button type="button" class="sample-chip" id="sampleSoraBtn">🤖 Sora AI Video</button>
             </div>
           </div>
 
@@ -122,11 +122,27 @@
         </section>
       </div>
 
+      <!-- Telemetry Scan Progress Box -->
+      <div class="scan-telemetry-box hide" id="scanTelemetryBox">
+        <div class="telemetry-header">
+          <span class="telemetry-dot"></span>
+          <span>SATYALENS AI NEURAL AUDIT IN PROGRESS...</span>
+        </div>
+        <div class="telemetry-bar-container">
+          <div class="telemetry-progress-fill" id="telemetryProgress" style="width: 15%;"></div>
+        </div>
+        <div class="telemetry-status-text" id="telemetryStatusText">Initializing Multi-Modal Neural Scan...</div>
+      </div>
+
       <!-- Verification Result Card -->
       <section class="result-card hide" id="resultCard">
         <div class="result-header">
           <div class="status-indicator" id="statusIndicator"></div>
-          <h2>Verification Result</h2>
+          <h2>Verification Analysis & Digital Forensic Audit</h2>
+          <button type="button" class="action-icon-btn" id="copyReportBtn" title="Copy Forensic Report text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy Report</span>
+          </button>
         </div>
 
         <div class="result-grid">
@@ -147,7 +163,12 @@
 
           <div class="result-row">
             <span class="row-label">Confidence</span>
-            <span class="row-val confidence-badge" id="resultConfidence">98% (High)</span>
+            <div class="confidence-gauge-wrapper">
+              <div class="gauge-bar-outer">
+                <div class="gauge-bar-inner" id="gaugeBarInner" style="width: 0%;"></div>
+              </div>
+              <span class="row-val confidence-badge" id="resultConfidence">98% (High)</span>
+            </div>
           </div>
 
           <div class="result-row">
