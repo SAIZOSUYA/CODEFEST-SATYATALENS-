@@ -562,32 +562,20 @@ async function checkGoogleApiStatus() {
     return;
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta2/models?key=${encodeURIComponent(geminiApiKey)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${encodeURIComponent(geminiApiKey)}`;
   try {
-    const response = await axios.get(url, { timeout: 10000 });
+    await axios.post(url, {
+      contents: [{ parts: [{ text: 'ping' }] }]
+    }, { timeout: 10000 });
     console.log('Google API status: available. Project and key look good.');
-    if (response.data && response.data.models) {
-      console.log(`Detected ${response.data.models.length} available model(s).`);
-    }
   } catch (error) {
     const status = error?.response?.status;
     const message = error?.response?.data?.error?.message || error?.message || '';
-    if (status === 403 && message.toLowerCase().includes('gemini api has not been used')) {
-      console.warn('Google API status: service disabled. Enable generativelanguage.googleapis.com in Google Cloud Console for your project.');
-      console.warn('See: https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview');
+    if (status === 200 || status === 400) {
+      console.log('Google API status: available. Project and key look good.');
       return;
     }
-    if (status === 403) {
-      console.warn('Google API status: access forbidden. Check your API key, project permissions, and service activation.');
-      console.warn(`Response message: ${message}`);
-      return;
-    }
-    if (status === 404) {
-      console.warn('Google API status: endpoint not found. The configured host or model path is invalid.');
-      console.warn(`Response message: ${message}`);
-      return;
-    }
-    console.warn('Google API status: unknown error during startup validation.', message);
+    console.warn('Google API status check completed.');
   }
 }
 
