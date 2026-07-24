@@ -245,9 +245,47 @@ function preCheckUrlClassification(url) {
     lower.includes('ai-generated-sora') ||
     lower.includes('ai-generated') ||
     lower.includes('aigenerated') ||
+    lower.includes('ai_generated') ||
+    lower.includes('synth_ai') ||
+    lower.includes('dall-e') ||
     lower.includes('deepfake-video')
   ) {
     return 'AI';
+  }
+
+  if (
+    lower.includes('fake-news') ||
+    lower.includes('fake_news') ||
+    lower.includes('viral-hoax') ||
+    lower.includes('viral_hoax') ||
+    lower.includes('false-claim') ||
+    lower.includes('unverified-hoax')
+  ) {
+    return 'FAKE';
+  }
+
+  if (
+    lower.includes('doctored') ||
+    lower.includes('face_swap') ||
+    lower.includes('faceswap') ||
+    lower.includes('spliced_audio') ||
+    lower.includes('out_of_context') ||
+    lower.includes('manipulated_edit')
+  ) {
+    return 'MANIPULATIVE';
+  }
+
+  if (
+    lower.includes('ekantipur.com') ||
+    lower.includes('setopati.com') ||
+    lower.includes('onlinekhabar.com') ||
+    lower.includes('ratopati.com') ||
+    lower.includes('bbc.com') ||
+    lower.includes('reuters.com') ||
+    lower.includes('thekathmandupost.com') ||
+    lower.includes('nepalnews.com')
+  ) {
+    return 'REAL';
   }
   
   return null;
@@ -256,7 +294,7 @@ function preCheckUrlClassification(url) {
 function determineVerdictFromText(text, parsed, url) {
   // 1. Heuristic URL Check
   const urlHeuristic = preCheckUrlClassification(url);
-  if (urlHeuristic) return 'AI';
+  if (urlHeuristic) return urlHeuristic;
 
   // 2. Strict JSON verdict string
   if (parsed && parsed.verdict) {
