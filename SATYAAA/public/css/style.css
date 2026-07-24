@@ -395,10 +395,15 @@ body.light-mode .auth-bg-logo {
 }
 
 .hero-logo-img {
-  width: 64px;
-  height: 70px;
+  width: 96px;
+  height: 106px;
   object-fit: contain;
-  filter: drop-shadow(0 8px 24px var(--crimson-glow));
+  filter: drop-shadow(0 10px 28px var(--crimson-glow));
+  transition: transform 0.25s ease;
+}
+
+.hero-logo-img:hover {
+  transform: scale(1.05);
 }
 
 .hero-brand-text {
