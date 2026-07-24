@@ -715,3 +715,132 @@ input:focus {
     gap: 4px;
   }
 }
+
+/* Audio & Voice Verification Styling */
+.audio-verify-card {
+  margin-top: 24px;
+}
+
+.card-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: var(--accent);
+}
+
+.card-section-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.audio-input-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.voice-recorder-box, .file-upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.record-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  color: #fda4af;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.record-btn:hover {
+  background: rgba(244, 63, 94, 0.22);
+  border-color: rgba(244, 63, 94, 0.7);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.25);
+}
+
+.record-btn.recording {
+  background: rgba(225, 29, 72, 0.35);
+  border-color: #f43f5e;
+  animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+.recording-time {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f43f5e;
+  letter-spacing: 1px;
+}
+
+.divider-text {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.file-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  text-align: center;
+}
+
+.file-upload-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent);
+}
+
+.audio-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 8, 26, 0.8);
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 18px;
+}
+
+.audio-preview-container audio {
+  flex: 1;
+  height: 38px;
+}
+
+.delete-audio-btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  color: #f43f5e;
+}

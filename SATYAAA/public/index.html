@@ -126,6 +126,47 @@
         </button>
       </section>
 
+      <!-- Voice Message & Audio File Upload Verification Card -->
+      <section class="verify-card audio-verify-card">
+        <div class="card-section-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <h3>Voice Message & Audio File AI Verification</h3>
+        </div>
+
+        <div class="audio-input-grid">
+          <!-- Live Voice Recorder -->
+          <div class="voice-recorder-box">
+            <button type="button" class="record-btn" id="recordBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="6" fill="#f43f5e"/><circle cx="12" cy="12" r="10"/></svg>
+              <span id="recordBtnText">Record Voice Message</span>
+            </button>
+            <span class="recording-time hide" id="recordTimer">00:00</span>
+          </div>
+
+          <div class="divider-text">OR</div>
+
+          <!-- File Drag & Drop Upload -->
+          <div class="file-upload-box">
+            <input type="file" id="audioFileInput" accept="audio/*" class="hide" />
+            <label for="audioFileInput" class="file-upload-label" id="fileUploadLabel">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span id="audioFileName">Upload Audio File (.wav, .mp3, .m4a, .webm)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Audio Preview Player -->
+        <div class="audio-preview-container hide" id="audioPreviewContainer">
+          <audio id="audioPreview" controls></audio>
+          <button type="button" class="ghost delete-audio-btn" id="deleteAudioBtn">Clear</button>
+        </div>
+
+        <button id="checkAudioBtn" class="primary-btn" disabled>
+          <span class="btn-text">Verify Voice Authenticity</span>
+          <div class="spinner hide" id="audioSpinner"></div>
+        </button>
+      </section>
+
       <!-- Verification Result Card -->
       <section class="result-card hide" id="resultCard">
         <div class="result-header">
