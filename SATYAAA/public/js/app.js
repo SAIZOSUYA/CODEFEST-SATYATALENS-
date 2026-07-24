@@ -19,88 +19,29 @@ const btnText = checkBtn.querySelector('.btn-text');
 const btnSpinner = document.getElementById('btnSpinner');
 
 function showAppPanel() {
-  authPanel.classList.add('hide');
-  appPanel.classList.remove('hide');
+  if (authPanel) authPanel.classList.add('hide');
+  if (appPanel) appPanel.classList.remove('hide');
 }
 
 function showAuthPanel() {
-  authPanel.classList.remove('hide');
-  appPanel.classList.add('hide');
-
-  const emailEl = document.getElementById('email');
-  const passwordEl = document.getElementById('password');
-  if (emailEl) emailEl.value = '';
-  if (passwordEl) passwordEl.value = '';
-  if (loginForm) loginForm.reset();
+  if (authPanel) authPanel.classList.remove('hide');
+  if (appPanel) appPanel.classList.add('hide');
 }
 
-async function checkSession() {
-  const isLoggedSession = sessionStorage.getItem('satya_user_logged') === 'true';
-  if (isLoggedSession) {
-    showAppPanel();
-  } else {
-    showAuthPanel();
-  }
+showAppPanel();
 
-  try {
-    const resp = await fetch('/api/user');
-    if (resp.ok && isLoggedSession) {
-      showAppPanel();
-    } else {
-      sessionStorage.removeItem('satya_user_logged');
-      showAuthPanel();
-    }
-  } catch (error) {
-    if (!isLoggedSession) {
-      showAuthPanel();
-    }
-  }
+if (loginForm) {
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    showAppPanel();
+  });
 }
 
-loginForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  
-  if (!email || !password) {
-    return alert('Please fill in both Email and Password.');
-  }
-
-  try {
-    const resp = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    
-    const data = await resp.json();
-    
-    if (resp.ok && data.success) {
-      sessionStorage.setItem('satya_user_logged', 'true');
-      showAppPanel();
-    } else {
-      alert(data.error || 'Login failed. Please check your credentials.');
-    }
-  } catch (err) {
-    sessionStorage.setItem('satya_user_logged', 'true');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', async () => {
     showAppPanel();
-  }
-});
-
-logoutBtn.addEventListener('click', async () => {
-  sessionStorage.removeItem('satya_user_logged');
-
-  const emailEl = document.getElementById('email');
-  const passwordEl = document.getElementById('password');
-  if (emailEl) emailEl.value = '';
-  if (passwordEl) passwordEl.value = '';
-  if (loginForm) loginForm.reset();
-
-  try {
-    await fetch('/api/logout', { method: 'POST' });
-  } catch (e) {}
-  showAuthPanel();
-});
+  });
+}
 
 sampleLinkBtn.addEventListener('click', () => {
   mediaUrl.value = 'https://youtu.be/bgnZNjd9yv8?si=DNBiLCvo9ltGF0CK';
