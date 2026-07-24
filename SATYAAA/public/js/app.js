@@ -43,10 +43,12 @@ if (logoutBtn) {
   });
 }
 
-sampleLinkBtn.addEventListener('click', () => {
-  mediaUrl.value = 'https://youtu.be/bgnZNjd9yv8?si=DNBiLCvo9ltGF0CK';
-  mediaUrl.focus();
-});
+if (sampleLinkBtn) {
+  sampleLinkBtn.addEventListener('click', () => {
+    mediaUrl.value = 'https://youtu.be/bgnZNjd9yv8?si=DNBiLCvo9ltGF0CK';
+    mediaUrl.focus();
+  });
+}
 
 function setLoading(loading) {
   if (loading) {
