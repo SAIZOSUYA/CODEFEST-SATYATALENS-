@@ -844,3 +844,27 @@ input:focus {
   font-size: 0.85rem;
   color: #f43f5e;
 }
+
+/* Red Highlight for Manipulative Lines in Speech Transcriptions */
+.red-manipulative-highlight {
+  display: block;
+  background: rgba(225, 29, 72, 0.22);
+  color: #fda4af;
+  border-left: 4px solid #f43f5e;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin: 6px 0;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.25);
+  line-height: 1.5;
+}
+
+.manipulative-line-box {
+  background: rgba(225, 29, 72, 0.14);
+  border: 1px solid rgba(244, 63, 94, 0.45);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  color: #fecdd3;
+  font-size: 0.9rem;
+}

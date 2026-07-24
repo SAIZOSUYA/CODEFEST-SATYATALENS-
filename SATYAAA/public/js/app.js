@@ -202,16 +202,25 @@ function formatReportText(text, json) {
         </div>`;
     }
 
-    if (json.speechTranscript || json.transcriptFactCheck) {
+    const manipLine = json.manipulative_line || json.manipulativeLine || json.flagged_speech_segment;
+    if (json.speechTranscript || json.transcriptFactCheck || manipLine) {
       html += `
-        <div class="report-section-card">
+        <div class="report-section-card" style="${manipLine ? 'border-left: 4px solid #f43f5e;' : ''}">
           <div class="section-card-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            <span>1. Speech Transcription & Web Fact-Check</span>
+            <span>1. Speech Transcription & Manipulative Line Remark</span>
           </div>
           <div class="section-card-body">
             ${json.speechTranscript ? `<p style="margin-bottom:8px;"><strong>Transcribed Remarks:</strong> "${escapeHtml(json.speechTranscript)}"</p>` : ''}
-            ${json.transcriptFactCheck ? `<p><strong>Fact-Check Verification:</strong> ${escapeHtml(json.transcriptFactCheck)}</p>` : ''}
+            ${manipLine ? `
+              <div class="manipulative-line-box">
+                <strong style="color: #f43f5e; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  FLAGGED MANIPULATIVE LINE / VOCAL REMARK:
+                </strong>
+                <div class="red-manipulative-highlight" style="margin-top: 6px;">"${escapeHtml(manipLine)}"</div>
+              </div>` : ''}
+            ${json.transcriptFactCheck ? `<p style="margin-top:8px;"><strong>Fact-Check Verification:</strong> ${escapeHtml(json.transcriptFactCheck)}</p>` : ''}
           </div>
         </div>`;
     }

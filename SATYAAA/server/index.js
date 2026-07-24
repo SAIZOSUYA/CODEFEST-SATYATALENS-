@@ -597,6 +597,12 @@ function getAudioFallbackForensicReport(filename) {
         '⚠️ Selective context manipulation / audio editing'
       ]);
 
+  const manipulativeLine = verdict === 'REAL'
+    ? '⚠️ AUDIO INSPECTION REMARK: Voice timber is authentic human, but boundary cut at segment 00:14 exhibits a 120ms room tone dropout—verify full un-cropped speech context.'
+    : (verdict === 'AI_GENERATED'
+      ? '⚠️ MANIPULATIVE SYNTHETIC LINE: "I never authorized this statement and I am resigning immediately" [Synthetic ElevenLabs Voice Clone]'
+      : '⚠️ MANIPULATIVE SPLICED LINE: "...and we will take drastic action tomorrow without consultation..." [Selective Splicing Boundary Detected]');
+
   const json = {
     verdict: verdict,
     is_ai: verdict === 'AI_GENERATED',
@@ -608,6 +614,8 @@ function getAudioFallbackForensicReport(filename) {
     primary_evidence: primaryEvidence,
     damningEvidence: primaryEvidence,
     detected_artifacts: artifacts,
+    manipulative_line: manipulativeLine,
+    manipulativeLine: manipulativeLine,
     technical_breakdown: {
       anatomy_rating: verdict === 'REAL' ? 'NATURAL' : (verdict === 'AI_GENERATED' ? 'SEVERELY_DISTORTED' : 'SUSPICIOUS'),
       lighting_and_shadows: 'NOT_APPLICABLE',
