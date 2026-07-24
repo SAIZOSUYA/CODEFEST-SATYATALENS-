@@ -389,6 +389,18 @@ const telemetryStatusText = document.getElementById('telemetryStatusText');
 const gaugeBarInner = document.getElementById('gaugeBarInner');
 const copyReportBtn = document.getElementById('copyReportBtn');
 
+const mainDownloadPdfBtn = document.getElementById('mainDownloadPdfBtn');
+
+if (mainDownloadPdfBtn) {
+  mainDownloadPdfBtn.addEventListener('click', () => {
+    if (currentForensicResult) {
+      generateAndDownloadPdfEvidence(currentForensicResult);
+    } else {
+      alert('Please run a verification scan first before downloading the PDF report.');
+    }
+  });
+}
+
 if (sampleYoutubeBtn) {
   sampleYoutubeBtn.addEventListener('click', () => {
     mediaUrl.value = 'https://youtu.be/bgnZNjd9yv8';
