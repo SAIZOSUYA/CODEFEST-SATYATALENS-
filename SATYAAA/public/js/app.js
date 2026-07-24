@@ -738,3 +738,36 @@ if (themeToggleBtn) {
     localStorage.setItem('satya_theme', nextIsLight ? 'light' : 'dark');
   });
 }
+
+// Fullscreen Toggle Handler
+const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+const fullscreenToggleText = document.getElementById('fullscreenToggleText');
+
+if (fullscreenToggleBtn) {
+  fullscreenToggleBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        if (fullscreenToggleText) fullscreenToggleText.textContent = 'Exit Full Screen';
+      }).catch(err => {
+        console.error(`Fullscreen error: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => {
+          if (fullscreenToggleText) fullscreenToggleText.textContent = 'Full Screen';
+        });
+      }
+    }
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    if (fullscreenToggleText) {
+      if (document.fullscreenElement) {
+        fullscreenToggleText.textContent = 'Exit Full Screen';
+      } else {
+        fullscreenToggleText.textContent = 'Full Screen';
+      }
+    }
+  });
+}
+

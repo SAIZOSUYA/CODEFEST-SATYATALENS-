@@ -72,7 +72,8 @@ body {
   z-index: 1;
   display: flex;
   min-height: 100vh;
-  align-items: center;
+  width: 100%;
+  align-items: flex-start;
   justify-content: center;
   padding: 32px 24px;
 }
@@ -84,12 +85,14 @@ body {
 /* Auth Panel Wrapper (Full Page Split Hero Layout) */
 .auth-panel-wrapper {
   position: relative;
-  width: min(1080px, 100%);
+  width: 100%;
+  max-width: 1280px;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 42px;
   align-items: center;
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
 }
 
 /* Ambient Shield Watermark for Auth/Login Page */
@@ -112,12 +115,18 @@ body {
   object-fit: contain;
 }
 
-/* Floating Light / Dark Mode Toggle Button */
-.theme-toggle-btn {
+/* Floating Controls Wrapper & Toggle Buttons */
+.top-floating-controls {
   position: fixed;
   top: 20px;
   right: 24px;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -556,7 +565,8 @@ body.light-mode .auth-bg-logo {
 
 /* Glass Panel Styling (App Panel) */
 .panel {
-  width: min(620px, 100%);
+  width: 100%;
+  max-width: 1360px;
   background: var(--panel-bg);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
@@ -567,6 +577,20 @@ body.light-mode .auth-bg-logo {
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
+  margin: 0 auto;
+}
+
+.app-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 960px) {
+  .app-dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .panel::before {
