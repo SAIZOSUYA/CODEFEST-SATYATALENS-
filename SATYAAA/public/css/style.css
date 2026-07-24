@@ -797,18 +797,24 @@ input:focus {
 .brand-sm {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .logo-img-sm {
-  width: 42px;
-  height: 48px;
+  width: 68px;
+  height: 76px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px var(--crimson-glow));
+  filter: drop-shadow(0 6px 20px rgba(244, 63, 94, 0.75));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-img-sm:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 8px 24px rgba(244, 63, 94, 0.9));
 }
 
 .brand-sm h1 {
-  font-size: 1.45rem;
+  font-size: 1.65rem;
   line-height: 1.1;
 }
 
