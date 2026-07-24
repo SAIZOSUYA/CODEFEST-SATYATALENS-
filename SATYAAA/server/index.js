@@ -428,10 +428,10 @@ function getFallbackForensicReport(url, category) {
   let verdict = 'REAL';
   if (preCheck === 'AI_GENERATED' || preCheck === 'AI' || isExplicitAiUrl) {
     verdict = 'AI';
-  } else if (preCheck === 'FAKE' || isFake) {
-    verdict = 'FAKE';
-  } else if (preCheck === 'MANIPULATIVE' || isManipulated) {
+  } else if (isManipulated || preCheck === 'MANIPULATIVE') {
     verdict = 'MANIPULATIVE';
+  } else if (isFake || preCheck === 'FAKE') {
+    verdict = 'FAKE';
   } else {
     verdict = 'REAL';
   }
@@ -456,6 +456,10 @@ function getFallbackForensicReport(url, category) {
     is_manipulative: verdict === 'MANIPULATIVE',
     confidence_score: confidenceScore,
     confidenceScore: `${confidenceScore}% (High)`,
+    aiProbabilityPercentage: isAi ? 98 : 4,
+    realProbabilityPercentage: verdict === 'REAL' ? 96 : 4,
+    fakeProbabilityPercentage: verdict === 'FAKE' ? 94 : 0,
+    manipulativeProbabilityPercentage: verdict === 'MANIPULATIVE' ? 92 : 0,
     primary_evidence: primaryEvidence,
     damningEvidence: primaryEvidence,
     fast_ai_detector: {
