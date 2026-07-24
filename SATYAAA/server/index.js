@@ -258,100 +258,69 @@ function extractJsonFromText(text) {
 }
 
 function preCheckUrlClassification(url) {
-  const lower = String(url || '').toLowerCase();
-  
-  if (
-    lower.includes('sora.com') ||
-    lower.includes('runwayml.com') ||
-    lower.includes('midjourney.com') ||
-    lower.includes('elevenlabs.io') ||
-    lower.includes('pika.art') ||
-    lower.includes('ideogram.ai') ||
-    lower.includes('suno.com') ||
-    lower.includes('udio.com') ||
-    lower.includes('heygen.com') ||
-    lower.includes('synthesia.io') ||
-    lower.includes('luma.ai') ||
-    lower.includes('klingai') ||
-    lower.includes('ai-generated-sora') ||
-    lower.includes('ai-generated') ||
-    lower.includes('aigenerated') ||
-    lower.includes('ai_generated') ||
-    lower.includes('synth_ai') ||
-    lower.includes('dall-e') ||
-    lower.includes('deepfake-video')
-  ) {
-    return 'AI';
-  }
+  try {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.toLowerCase();
 
-  if (
-    lower.includes('fake-news') ||
-    lower.includes('fake_news') ||
-    lower.includes('viral-hoax') ||
-    lower.includes('viral_hoax') ||
-    lower.includes('false-claim') ||
-    lower.includes('unverified-hoax')
-  ) {
-    return 'FAKE';
-  }
+    if (
+      host.includes('sora.com') ||
+      host.includes('runwayml.com') ||
+      host.includes('midjourney.com') ||
+      host.includes('elevenlabs.io') ||
+      host.includes('pika.art') ||
+      host.includes('suno.com') ||
+      host.includes('udio.com') ||
+      host.includes('heygen.com') ||
+      host.includes('synthesia.io')
+    ) {
+      return 'AI';
+    }
 
-  if (
-    lower.includes('doctored') ||
-    lower.includes('face_swap') ||
-    lower.includes('faceswap') ||
-    lower.includes('spliced_audio') ||
-    lower.includes('out_of_context') ||
-    lower.includes('manipulated_edit')
-  ) {
-    return 'MANIPULATIVE';
-  }
+    if (
+      host.endsWith('ekantipur.com') ||
+      host.endsWith('setopati.com') ||
+      host.endsWith('onlinekhabar.com') ||
+      host.endsWith('ratopati.com') ||
+      host.endsWith('bbc.com') ||
+      host.endsWith('reuters.com')
+    ) {
+      return 'REAL';
+    }
+  } catch (e) {}
 
-  if (
-    lower.includes('ekantipur.com') ||
-    lower.includes('setopati.com') ||
-    lower.includes('onlinekhabar.com') ||
-    lower.includes('ratopati.com') ||
-    lower.includes('bbc.com') ||
-    lower.includes('reuters.com') ||
-    lower.includes('thekathmandupost.com') ||
-    lower.includes('nepalnews.com')
-  ) {
-    return 'REAL';
-  }
-  
   return null;
 }
 
 function determineVerdictFromText(text, parsed, url) {
-  // 1. Heuristic URL Check
-  const urlHeuristic = preCheckUrlClassification(url);
-  if (urlHeuristic) return urlHeuristic;
-
-  // 2. Strict JSON verdict string
+  // 1. Primary Authority: Gemini AI's explicit JSON verdict
   if (parsed && parsed.verdict) {
     const v = String(parsed.verdict).toUpperCase().trim();
-    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('SORA') || v.includes('DEEPFAKE')) return 'AI';
+    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('DEEPFAKE') || v.includes('SORA')) return 'AI';
     if (v === 'FAKE' || v === 'FABRICATED' || v.includes('HOAX')) return 'FAKE';
-    if (v === 'MANIPULATIVE' || v.includes('MISLEADING') || v.includes('DOCTORED')) return 'MANIPULATIVE';
+    if (v === 'MANIPULATIVE' || v === 'SUSPICIOUS' || v.includes('MISLEADING') || v.includes('DOCTORED')) return 'MANIPULATIVE';
     if (v === 'REAL' || v === 'AUTHENTIC' || v.includes('GENUINE')) return 'REAL';
   }
 
-  // 3. Strict JSON booleans check in order of priority (AI > FAKE > MANIPULATIVE > REAL)
+  // 2. Strict JSON Booleans check
   if (parsed) {
     if (parsed.is_ai === true || parsed.is_ai_generated === true) return 'AI';
     if (parsed.is_fake === true) return 'FAKE';
-    if (parsed.is_manipulative === true) return 'MANIPULATIVE';
-    if (parsed.is_real === true) return 'REAL';
+    if (parsed.is_manipulative === true || parsed.is_suspicious === true) return 'MANIPULATIVE';
+    if (parsed.is_real === true || parsed.is_authentic === true) return 'REAL';
   }
 
-  // 4. Fallback text search ONLY inside the generated text output after removing prompt instructions
+  // 3. Model Output Body Search
   const body = String(text || '').replace(/[\s\S]*CLASSIFICATION DIRECTIVES[\s\S]*?schema:/i, '');
   const upper = body.toUpperCase();
 
   if (upper.includes('"VERDICT": "AI"') || upper.includes('"VERDICT": "AI_GENERATED"') || upper.includes('"IS_AI": TRUE')) return 'AI';
   if (upper.includes('"VERDICT": "FAKE"') || upper.includes('"VERDICT": "FABRICATED"') || upper.includes('"IS_FAKE": TRUE')) return 'FAKE';
-  if (upper.includes('"VERDICT": "MANIPULATIVE"') || upper.includes('"VERDICT": "MISLEADING"') || upper.includes('"IS_MANIPULATIVE": TRUE')) return 'MANIPULATIVE';
+  if (upper.includes('"VERDICT": "MANIPULATIVE"') || upper.includes('"VERDICT": "SUSPICIOUS"') || upper.includes('"IS_MANIPULATIVE": TRUE')) return 'MANIPULATIVE';
   if (upper.includes('"VERDICT": "REAL"') || upper.includes('"VERDICT": "AUTHENTIC"') || upper.includes('"IS_REAL": TRUE')) return 'REAL';
+
+  // 4. Last Resort Heuristic Fallback ONLY if AI produced no response
+  const urlHeuristic = preCheckUrlClassification(url);
+  if (urlHeuristic) return urlHeuristic;
 
   return 'REAL';
 }
