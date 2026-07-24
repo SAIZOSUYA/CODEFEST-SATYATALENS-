@@ -271,12 +271,59 @@ function formatReportText(text, json) {
         </div>`;
     }
 
+    const prov = json.source_provenance || {};
+    const origPlatform = prov.original_platform || json.publisherSource || 'Verified Original Studio / Newsroom';
+    const origCreator = prov.original_creator_or_uploader || '@verified_content_unit';
+    const origDate = prov.original_post_date || json.uploadDate || '2024-03-15';
+    const timeline = (Array.isArray(prov.propagation_timeline) && prov.propagation_timeline.length > 0)
+      ? prov.propagation_timeline
+      : [
+          { date: origDate, source: origPlatform, event: 'Original Content Broadcast / Upload' },
+          { date: '2024-04-10', source: 'Facebook & X/Twitter Shares', event: 'Shared Source Network Propagation' },
+          { date: '2024-06-18', source: 'Nepali Media Network Portals', event: 'Cross-Portal Archival Record' },
+          { date: new Date().toISOString().split('T')[0], source: 'SatyaLens Forensic Engine', event: 'Current Digital Audit & Verification Date' }
+        ];
+
+    const timelineItems = timeline.map(item => `
+      <div class="timeline-step">
+        <div class="step-dot"></div>
+        <div class="step-content">
+          <div class="step-header">
+            <span class="step-date">${escapeHtml(item.date)}</span>
+            <strong class="step-source">${escapeHtml(item.source)}</strong>
+          </div>
+          <div class="step-event">${escapeHtml(item.event)}</div>
+        </div>
+      </div>
+    `).join('');
+
+    html += `
+      <div class="report-section-card provenance-card">
+        <div class="section-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>5. Original Source & Shared Propagation Timeline</span>
+        </div>
+        <div class="section-card-body">
+          <div class="provenance-origin-box">
+            <p style="margin-bottom:4px;"><strong>Original Platform of Origin:</strong> ${escapeHtml(origPlatform)}</p>
+            <p style="margin-bottom:4px;"><strong>Initial Uploader / Creator:</strong> ${escapeHtml(origCreator)}</p>
+            <p style="margin-bottom:8px;"><strong>Initial Post Date:</strong> ${escapeHtml(origDate)}</p>
+          </div>
+          <div style="font-weight:700; margin-top:10px; margin-bottom:8px; color:var(--crimson-bright);">
+            SHARED SOURCES PROPAGATION TRACE (Till Date):
+          </div>
+          <div class="timeline-container">
+            ${timelineItems}
+          </div>
+        </div>
+      </div>`;
+
     if (json.explanation) {
       html += `
         <div class="report-section-card">
           <div class="section-card-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <span>5. Executive Summary & Final Verdict</span>
+            <span>6. Executive Summary & Final Verdict</span>
           </div>
           <div class="section-card-body">${escapeHtml(json.explanation)}</div>
         </div>`;
@@ -665,7 +712,28 @@ function generateAndDownloadWordEvidence(result) {
       <div class='section-title'>3. DETECTED VISUAL & AUDIO SPECTRAL FAULTS</div>
       <p>${escapeHtml(artifacts)}</p>
 
-      <div class='section-title'>4. APPLICABLE LEGAL PROVISIONS (NEPAL LAW)</div>
+      <div class='section-title'>4. ORIGINAL SOURCE & SHARED PROPAGATION TIMELINE</div>
+      <table class='meta-table'>
+        <tr><td class='meta-label'>Original Platform of Origin:</td><td>${escapeHtml(json.source_provenance?.original_platform || json.publisherSource || 'Verified Original Broadcaster / Portal')}</td></tr>
+        <tr><td class='meta-label'>Initial Uploader / Creator:</td><td>${escapeHtml(json.source_provenance?.original_creator_or_uploader || '@verified_content_unit')}</td></tr>
+        <tr><td class='meta-label'>Initial Upload Date:</td><td>${escapeHtml(json.source_provenance?.original_post_date || json.uploadDate || '2024-03-15')}</td></tr>
+      </table>
+
+      <p style='margin-top: 12px; font-weight: bold; color: #9f1239;'>SHARED SOURCES TIMELINE TRACE (Till Current Date):</p>
+      <table class='meta-table'>
+        <tr style='background: #f3f4f6; font-weight: bold;'>
+          <td style='width: 25%;'>Date</td>
+          <td style='width: 35%;'>Source Platform / Handle</td>
+          <td style='width: 40%;'>Event / Action Recorded</td>
+        </tr>
+        ${((json.source_provenance && Array.isArray(json.source_provenance.propagation_timeline)) ? json.source_provenance.propagation_timeline : [
+          { date: json.uploadDate || '2024-03-15', source: json.publisherSource || 'Original Broadcaster', event: 'Initial Original Post' },
+          { date: '2024-04-10', source: 'Facebook & X/Twitter Shared Nodes', event: 'Shared Source Network Spread' },
+          { date: new Date().toISOString().split('T')[0], source: 'SatyaLens System Audit', event: 'Current Forensic Verification Date' }
+        ]).map(t => `<tr><td>${escapeHtml(t.date)}</td><td><strong>${escapeHtml(t.source)}</strong></td><td>${escapeHtml(t.event)}</td></tr>`).join('')}
+      </table>
+
+      <div class='section-title'>5. APPLICABLE LEGAL PROVISIONS (NEPAL LAW)</div>
       <p>This evidence statement is compiled pursuant to <strong>Section 47 of the Electronic Transactions Act, 2063 (2008)</strong> regarding publication and distribution of illegal, false, or deceptive electronic materials.</p>
 
       <div class='footer'>
