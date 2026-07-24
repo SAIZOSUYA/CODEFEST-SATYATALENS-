@@ -1,44 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 560" width="100%" height="100%">
   <defs>
-    <!-- Shield Gradient -->
-    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f43f5e" />
-      <stop offset="50%" stop-color="#e11d48" />
-      <stop offset="100%" stop-color="#9f1239" />
-    </linearGradient>
-    
-    <!-- Glow Effect -->
-    <filter id="redGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#e11d48" flood-opacity="0.4" />
+    <!-- Soft Realistic Drop Shadow -->
+    <filter id="shieldShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="-14" dy="16" stdDeviation="12" flood-color="#000000" flood-opacity="0.35" />
     </filter>
     
-    <filter id="shadowDepth" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.3" />
+    <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4" />
     </filter>
   </defs>
 
-  <g filter="url(#redGlow)">
-    <!-- Main Shield Outer Path -->
-    <path d="M 250,15 C 380,50 450,75 450,140 C 450,330 350,460 250,540 C 150,460 50,330 50,140 C 50,75 120,50 250,15 Z" fill="url(#shieldGrad)" />
+  <g filter="url(#shieldShadow)">
+    <!-- Main Heraldic Shield Path (Vibrant Ruby Red) -->
+    <path d="M 256,14 C 345,42 454,70 454,142 L 454,295 C 454,410 355,492 256,542 C 157,492 58,410 58,295 L 58,142 C 58,70 167,42 256,14 Z" fill="#e10032" />
     
-    <!-- Eye Shape Contour (White Fill) -->
-    <path d="M 110,220 C 160,130 340,130 390,220 C 340,310 160,310 110,220 Z" fill="#ffffff" filter="url(#shadowDepth)" />
+    <!-- Outer White Eye Almond Shape -->
+    <path d="M 112,220 C 158,122 354,122 400,220 C 354,318 158,318 112,220 Z" fill="#ffffff" />
 
-    <!-- Red Iris Circle -->
-    <circle cx="250" cy="220" r="75" fill="#e11d48" />
+    <!-- Solid Red Iris Circle -->
+    <circle cx="256" cy="220" r="76" fill="#e10032" />
 
-    <!-- Center Pupil (White Inner Circle) -->
-    <circle cx="250" cy="220" r="35" fill="#ffffff" />
-    
-    <!-- Devanagari 'स' (Sa) Character in Pupil -->
-    <text x="250" y="233" font-family="'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Arial', sans-serif" font-weight="900" font-size="38" fill="#e11d48" text-anchor="middle" dominant-baseline="middle">स</text>
+    <!-- Inner White Pupil Base -->
+    <circle cx="256" cy="220" r="36" fill="#ffffff" />
 
-    <!-- Subtitle Text: "सत्यता Lens" at bottom of Shield -->
-    <g filter="url(#shadowDepth)">
-      <!-- 'सत्यता' in Devanagari -->
-      <text x="205" y="420" font-family="'Plus Jakarta Sans', 'Mukta', 'Devanagari', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="end">सत्यता</text>
-      <!-- 'Lens' in English -->
-      <text x="215" y="420" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="46" fill="#ffffff" text-anchor="start">Lens</text>
+    <!-- Right Notch Cutout on Pupil -->
+    <path d="M 256,220 L 292,220 A 36,36 0 0 1 278,245 A 14,14 0 0 0 274,222 Z" fill="#e10032" />
+
+    <!-- Center Devanagari 'स' Symbol -->
+    <text x="251" y="233" font-family="'Plus Jakarta Sans', 'Mukta', 'Noto Sans Devanagari', 'Arial', sans-serif" font-weight="900" font-size="40" fill="#e10032" text-anchor="middle">स</text>
+
+    <!-- Bottom Typography: "सत्यता Lens" -->
+    <g filter="url(#textShadow)">
+      <!-- Devanagari 'सत्यता' -->
+      <text x="274" y="420" font-family="'Plus Jakarta Sans', 'Mukta', 'Devanagari', 'Segoe UI', sans-serif" font-weight="900" font-size="52" fill="#ffffff" text-anchor="end">सत्यता</text>
+      <!-- English 'Lens' -->
+      <text x="282" y="420" font-family="'Outfit', 'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-weight="800" font-size="52" fill="#ffffff" text-anchor="start">Lens</text>
     </g>
   </g>
 </svg>
