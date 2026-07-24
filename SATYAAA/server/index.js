@@ -361,21 +361,22 @@ async function analyzeLink(url, category, options = {}) {
   const language = options.language || 'auto';
   const platform = options.platform || 'auto';
 
-  const prompt = `You are an API endpoint acting as an automated Digital Forensics Engine operating as SatyaLens AI.
-Your task is to analyze the target media and return a strict JSON assessment classifying the media into one of four categories: "REAL", "AI_GENERATED", "MANIPULATIVE", or "INCONCLUSIVE".
+  const prompt = `You are a Lead AI Forensic Auditor operating the SatyaLens "AI-Checking-AI" Multi-Modal Neural Inspection Engine.
+Your mission is to perform AN ADVERSARIAL AI AUDIT CHECKING IF ANOTHER GENERATIVE AI ENGINE (Midjourney v5/v6, DALL-E 3, Stable Diffusion XL/3, Sora, Runway Gen-2, Pika, ElevenLabs, Suno v3, Udio, etc.) synthesized or manipulated this target media.
 
-CLASSIFICATION DEFINITIONS:
-1. "REAL": Authentic capture. Physics, geometry, reflections, textures, and shadows are logically consistent.
-2. "AI_GENERATED": Created entirely from scratch by generative AI (Midjourney, DALL-E, Stable Diffusion, Sora, etc.). Look for jumbled background text, melting objects, plastic skin, pupil asymmetry, extra fingers, floating limbs.
-3. "MANIPULATIVE": Real image/video edited or deepfaked (face-swapping, object insertion, voice synthesis, out-of-context audio). Look for mismatched facial lighting, boundary haloing, resolution disparity.
-4. "INCONCLUSIVE": Low resolution or blurred detail preventing reliable forensic checks.
+AI-CHECKING-AI ADVERSARIAL AUDIT PRINCIPLES:
+1. "AI_GENERATED": Media synthesized entirely by AI algorithms. Inspect for latent diffusion grid noise, plastic skin subsurface scattering absence, background line warping/melting, pupil asymmetry, ear deformities, vocoder phase breaks, robotic pitch smoothing.
+2. "REAL": Authentic optical or acoustic capture. Physical geometry, natural pupil catchlights, sub-surface scattering, shutter motion blur, and acoustic room impulse responses are consistent.
+3. "MANIPULATIVE": Real media altered or deepfaked (face-swapping, object insertion, voice cloning, out-of-context audio splicing).
+4. "INCONCLUSIVE": Low resolution or blurred content preventing conclusive neural inspection.
 
-FORENSIC CHECKLIST TO PERFORM BEFORE SCORING:
+AI DISCRIMINATOR CHECKLIST BEFORE SCORING:
 - Anatomical: Pupils (roundness/catchlights), fingers, skin texture, teeth boundaries.
 - Physics: Lighting consistency, shadow angles, reflection fidelity in eyes/mirrors.
 - Geometry & Semantics: Straightness of background lines, readability of background text, coherence of crowded scenes.
+- Audio Spectral: Vocoder pitch smoothing, phase continuity, ambient room tone.
 
-TARGET MEDIA:
+TARGET MEDIA FOR AI-CHECKING-AI AUDIT:
 URL: ${url}
 Media Category: ${category}
 Scan Mode: ${mode}
