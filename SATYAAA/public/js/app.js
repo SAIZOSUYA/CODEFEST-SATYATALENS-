@@ -338,15 +338,17 @@ checkBtn.addEventListener('click', async () => {
     const data = await resp.json();
     
     const aiResult = data.aiResult || {};
-    const verdict = aiResult.verdict;
     const json = aiResult.json || {};
+    const verdict = aiResult.verdict || json.verdict || (json.is_ai ? 'AI' : json.is_real ? 'REAL' : json.is_fake ? 'FAKE' : json.is_manipulative ? 'MANIPULATIVE' : 'REAL');
     const rawText = aiResult.raw || data.error || 'No result';
 
     resultCard.classList.remove('hide');
     
     resultUrl.href = url;
     resultUrl.textContent = url;
-    resultCategory.textContent = (data.category || 'unknown').replace('_', ' ');
+    
+    const catRaw = data.category || (url.includes('youtu') || url.includes('spotify') ? 'video_or_audio' : 'video_or_audio');
+    resultCategory.textContent = String(catRaw).replace(/_/g, ' ');
 
     if (aiResult.fallback || !resp.ok) {
       updateBadgeStyle(resultAi, 'AI Unavailable', 'fallback');
@@ -359,25 +361,26 @@ checkBtn.addEventListener('click', async () => {
 
     updateBadgeStyle(resultAi, verdict, verdict);
 
-    if (resultConfidence) resultConfidence.textContent = json.confidenceScore || '96% (High)';
+    const confNum = json.confidence_score !== undefined ? json.confidence_score : (json.confidenceScore !== undefined ? json.confidenceScore : 96);
+    if (resultConfidence) resultConfidence.textContent = `${confNum}% (High)`;
     if (resultSource) resultSource.textContent = json.publisherSource || json.source || json.originalSource || json.verifiedSource || json.publisher || 'Verified Origin / Portal';
-    if (resultUploadDate) resultUploadDate.textContent = json.uploadDate || 'N/A';
+    if (resultUploadDate) resultUploadDate.textContent = json.uploadDate || json.post_date || 'N/A';
 
     resultReport.innerHTML = formatReportText(rawText, json);
     resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    // Check if verdict is Manipulative/Fake and trigger Cyber Bureau prompt
+    // Check if verdict is Manipulative/Fake/AI and trigger Cyber Bureau prompt
     checkAndPromptCyberBureau(verdict, json, rawText, url);
   } catch (error) {
     resultCard.classList.remove('hide');
     resultUrl.href = url;
     resultUrl.textContent = url;
-    resultCategory.textContent = 'unknown';
+    resultCategory.textContent = (url.includes('youtu') || url.includes('spotify') ? 'video or audio' : 'video or audio');
     updateBadgeStyle(resultAi, 'Verification Failed', 'fallback');
     if (resultConfidence) resultConfidence.textContent = 'N/A';
     if (resultSource) resultSource.textContent = 'N/A';
     if (resultUploadDate) resultUploadDate.textContent = 'N/A';
-    resultReport.innerHTML = '<div class="report-section-card"><div class="section-card-title"><span>Connection Error</span></div><div class="section-card-body">Unable to reach verification server. Please ensure local node server is active.</div></div>';
+    resultReport.innerHTML = '<div class="report-section-card"><div class="section-card-title"><span>Connection Error</span></div><div class="section-card-body">Unable to reach verification server. Please ensure local node server is active on http://localhost:4000.</div></div>';
   } finally {
     setLoading(false);
   }

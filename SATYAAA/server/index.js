@@ -121,14 +121,14 @@ app.post('/api/verify-link', async (req, res) => {
 });
 
 function detectCategory(url) {
-  const lower = url.toLowerCase();
-  if (lower.includes('youtube.com') || lower.includes('youtu.be') || lower.includes('spotify.com') || lower.includes('soundcloud.com')) {
+  const lower = String(url || '').toLowerCase();
+  if (lower.includes('youtube.com') || lower.includes('youtu.be') || lower.includes('spotify.com') || lower.includes('soundcloud.com') || lower.includes('vimeo.com') || lower.includes('tiktok.com')) {
     return 'video_or_audio';
   }
-  if (lower.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/)) {
+  if (lower.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) || lower.includes('instagram.com') || lower.includes('pinterest.com')) {
     return 'image';
   }
-  return 'unknown';
+  return 'video_or_audio';
 }
 
 async function getGoogleGeneration(prompt) {
@@ -231,7 +231,6 @@ function preCheckUrlClassification(url) {
   const lower = String(url || '').toLowerCase();
   
   if (
-    lower.includes('bgnznjd9yv8') ||
     lower.includes('sora.com') ||
     lower.includes('runwayml.com') ||
     lower.includes('midjourney.com') ||
