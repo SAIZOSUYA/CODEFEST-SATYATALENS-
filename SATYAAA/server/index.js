@@ -430,14 +430,18 @@ Return ONLY a valid JSON object matching this exact schema:
 
     let formattedText = text;
     if (parsed) {
-      parsed.verdict = verdict;
-      parsed.is_ai = (verdict === 'AI');
+      parsed.verdict = (verdict === 'AI_GENERATED') ? 'AI' : verdict;
+      parsed.is_ai = (verdict === 'AI' || verdict === 'AI_GENERATED');
       parsed.is_real = (verdict === 'REAL');
       parsed.is_fake = (verdict === 'FAKE');
       parsed.is_manipulative = (verdict === 'MANIPULATIVE');
 
-      const aiPct = typeof parsed.aiProbabilityPercentage === 'number' ? parsed.aiProbabilityPercentage : (verdict === 'AI' ? 95 : 4);
-      const realPct = typeof parsed.realProbabilityPercentage === 'number' ? parsed.realProbabilityPercentage : (verdict === 'REAL' ? 96 : 4);
+      if (parsed.is_ai && parsed.primary_evidence && !parsed.primary_evidence.toUpperCase().includes('AI-GENERATED')) {
+        parsed.primary_evidence = 'AI-GENERATED SYNTHETIC MEDIA DETECTED: ' + parsed.primary_evidence;
+      }
+
+      const aiPct = typeof parsed.aiProbabilityPercentage === 'number' ? parsed.aiProbabilityPercentage : (parsed.is_ai ? 98 : 4);
+      const realPct = typeof parsed.realProbabilityPercentage === 'number' ? parsed.realProbabilityPercentage : (parsed.is_real ? 96 : 4);
       const fakePct = typeof parsed.fakeProbabilityPercentage === 'number' ? parsed.fakeProbabilityPercentage : (verdict === 'FAKE' ? 92 : 0);
       const manipPct = typeof parsed.manipulativeProbabilityPercentage === 'number' ? parsed.manipulativeProbabilityPercentage : (verdict === 'MANIPULATIVE' ? 94 : 0);
 

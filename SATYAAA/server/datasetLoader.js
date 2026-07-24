@@ -29,16 +29,29 @@ function loadDatasetTrainingData() {
 
 function getDatasetPromptInstruction() {
   return `
-DATASET TRAINING KNOWLEDGE (Trained on SatyaLens & Nepali-Datasets Corpus by pemagrg1):
-- Dataset 1 (Nepali Hate Speech & Bias): Trained on 2,475 annotated Nepali & Romanized terms across Politics, Religion, and Taboo/Abusive categories.
-- Dataset 2 (Nepali Sentiment Analysis): Trained on 35,795 labeled Nepali sentences covering media comments, news portals, and social media discourse.
-- Dataset 3 (pemagrg1/Nepali-Datasets Corpus): Trained on 100+ Nepali NLP benchmarks including NLUE, Nep-gLUE, EverestNER, DanfeNER, 16NepaliNews Corpus (Setopati, Ekantipur, OnlineKhabar), and OpenSLR-54 / OpenSLR-43 voice synthesis speech corpora.
+DATASET TRAINING & FORENSIC KNOWLEDGE BASE (SatyaLens & Nepali-Datasets Corpus by pemagrg1):
+- Dataset 1 (Nepali Hate Speech & Bias): 2,475 annotated Nepali & Romanized terms across Politics, Religion, and Abusive/Taboo categories.
+- Dataset 2 (Nepali Sentiment Analysis): 35,795 labeled Nepali sentences covering media comments, news portals, and social media discourse.
+- Dataset 3 (pemagrg1/Nepali-Datasets Corpus): 100+ Nepali NLP benchmarks including NLUE, Nep-gLUE, EverestNER, DanfeNER, 16NepaliNews Corpus (Setopati, Ekantipur, OnlineKhabar), and OpenSLR-54 / OpenSLR-43 voice synthesis speech corpora.
 
-APPLY DATASET TRAINING RULES TO ANALYSIS:
-1. Identify hate speech, abusive language, political manipulation, or religious bias based on the Nepali hate speech and NLUE benchmark datasets.
-2. Evaluate news sentiment polarity (Positive, Negative, Neutral, Provocative Clickbait) using the Nepali sentiment and 16NepaliNews datasets.
-3. Compare speech audio and voice recordings against OpenSLR-54 / OpenSLR-43 ASR & TTS voice synthesis speech benchmarks to detect synthetic voice cloning (ElevenLabs, Suno, Resemble AI).
-4. Highlight whether the tone is misleading, synthetic, or propaganda-driven.
+MASTER AI VS REALITY FORENSIC DETECTION MATRIX:
+
+1. COMPREHENSIVE AI & SYNTHETIC MEDIA SIGNALS (When AI is detected -> Remark as "AI_GENERATED" / "AI"):
+   - Visual Neural Fingerprints: Latent diffusion noise, plastic/wax skin subsurface scattering absence, background line warping/melting (Midjourney, DALL-E 3, Stable Diffusion XL/3).
+   - Video Temporal Defects: Fine texture flickering, fluid dynamics physics violations, morphing background objects (Sora, Runway Gen-2, Pika, Kling AI, Luma Dream Machine).
+   - Anatomical Anomalies: Pupil asymmetry, specular catchlight angle drift, fused fingers, ear helix deformities, merged teeth boundaries.
+   - Audio Vocoder Artifacts: Phase continuity breaks, robotic formant smoothing, missing physiological breath pauses, artificial room tone absence (ElevenLabs, Suno v3, Udio, Resemble AI, Bark).
+   - OpenSLR Benchmark: Formant unnaturalness compared against OpenSLR-54 / OpenSLR-43 Nepali speech ASR/TTS corpora.
+
+2. COMPREHENSIVE REALITY SIGNALS (When Real is detected -> Remark as "REAL"):
+   - Biological Dynamics: Natural blink frequency (~12-20 blinks/min), organic skin pore micro-textures, authentic ocular reflection physics.
+   - Optical Camera Physics: Coherent cast shadow directions matching studio lighting, consistent lens distortion, natural shutter motion blur.
+   - Audio Spectrum Purity: Continuous natural room impulse response (RIR), natural viseme-phoneme sync (<15ms tolerance), unmanipulated room acoustics.
+   - Provenance Verification: Alignment with 16NepaliNews archives (Ekantipur, Setopati, Onlinekhabar, Ratopati, BBC Nepali, Reuters).
+
+3. MANDATORY REMARK RULE:
+   - If AI or voice cloning is detected, "verdict" MUST be "AI_GENERATED" or "AI", "primary_evidence" MUST explicitly begin with "AI-GENERATED SYNTHETIC MEDIA DETECTED:", and "detected_artifacts" MUST list specific neural faults.
+   - If authentic optical/acoustic capture is detected, "verdict" MUST be "REAL" and "primary_evidence" MUST detail biological and optical consistency.
 `;
 }
 
