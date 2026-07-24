@@ -203,13 +203,30 @@ body.light-mode .theme-toggle-btn {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
+body.light-mode .title-devanagari {
+  background: linear-gradient(135deg, #0f172a 0%, #e11d48 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .title-english {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .hero-subtitle {
+  color: #334155;
+  font-weight: 500;
+}
+
 body.light-mode .bg-glow {
   opacity: 0.12;
 }
 
 body.light-mode .auth-bg-logo {
-  opacity: 0.38;
-  filter: blur(4px) drop-shadow(0 0 25px rgba(225, 29, 72, 0.25));
+  opacity: 0.28;
+  filter: blur(5px) drop-shadow(0 0 25px rgba(225, 29, 72, 0.2));
 }
 
 .auth-hero-left {
