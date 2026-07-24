@@ -308,9 +308,68 @@ function preCheckUrlClassification(url) {
   return null;
 }
 
-function determineVerdictFromText(text, parsed, url) {
+async function fetchMediaMetadata(url) {
+  const metadata = {
+    title: '',
+    author: '',
+    description: '',
+    isAiMetadata: false,
+    raw: null
+  };
+
+  try {
+    const lower = String(url || '').toLowerCase();
+    if (lower.includes('youtube.com') || lower.includes('youtu.be')) {
+      const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+      const res = await axios.get(oembedUrl, { timeout: 3500 });
+      if (res.data) {
+        metadata.title = res.data.title || '';
+        metadata.author = res.data.author_name || '';
+        metadata.raw = res.data;
+
+        const titleLower = metadata.title.toLowerCase();
+        const authorLower = metadata.author.toLowerCase();
+
+        if (
+          titleLower.includes('#ai') ||
+          titleLower.includes(' ai ') ||
+          titleLower.startsWith('ai ') ||
+          titleLower.endsWith(' ai') ||
+          titleLower.includes('ai_') ||
+          titleLower.includes('ai-') ||
+          titleLower.includes('animation') ||
+          titleLower.includes('cartoon') ||
+          titleLower.includes('synthetic') ||
+          titleLower.includes('sora') ||
+          titleLower.includes('deepfake') ||
+          titleLower.includes('midjourney') ||
+          titleLower.includes('elevenlabs') ||
+          titleLower.includes('runway') ||
+          titleLower.includes('cgi') ||
+          titleLower.includes('3d animation') ||
+          authorLower.includes('ai') ||
+          authorLower.includes('synth') ||
+          authorLower.includes('deepfake')
+        ) {
+          metadata.isAiMetadata = true;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Metadata fetch notice:', e.message);
+  }
+
+  return metadata;
+}
+
+function determineVerdictFromText(text, parsed, url, metadata = {}) {
   const lowerUrl = String(url || '').toLowerCase();
   
+  // 0. Check YouTube / Media Metadata AI signatures
+  if (metadata && metadata.isAiMetadata === true) {
+    return 'AI';
+  }
+
   // 1. Explicit AI keywords/domains check
   const urlHeuristic = preCheckUrlClassification(url);
   if (urlHeuristic === 'AI') return 'AI';
@@ -318,7 +377,7 @@ function determineVerdictFromText(text, parsed, url) {
   // 2. Primary Authority: Gemini AI's explicit JSON verdict
   if (parsed) {
     const v = String(parsed.verdict || parsed.classification || parsed.status || '').toUpperCase().trim();
-    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('DEEPFAKE') || v.includes('SORA') || v.includes('GENERATED')) return 'AI';
+    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('DEEPFAKE') || v.includes('SORA') || v.includes('GENERATED') || v.includes('ANIMATION')) return 'AI';
     if (v === 'FAKE' || v === 'FABRICATED' || v.includes('HOAX')) return 'FAKE';
     if (v === 'MANIPULATIVE' || v === 'SUSPICIOUS' || v.includes('MISLEADING') || v.includes('DOCTORED')) return 'MANIPULATIVE';
     if (v === 'REAL' || v === 'AUTHENTIC' || v.includes('GENUINE')) return 'REAL';
@@ -349,23 +408,23 @@ async function analyzeLink(url, category, options = {}) {
   const language = options.language || 'auto';
   const platform = options.platform || 'auto';
 
+  // Fetch target media metadata (YouTube oEmbed title, channel, hashtags)
+  const metadata = await fetchMediaMetadata(url);
+
   const prompt = `You are a Lead AI Forensic Auditor operating the SatyaLens "AI-Checking-AI" Multi-Modal Neural Inspection Engine.
-Your mission is to perform AN ADVERSARIAL AI AUDIT CHECKING IF ANOTHER GENERATIVE AI ENGINE (Midjourney v5/v6, DALL-E 3, Stable Diffusion XL/3, Sora, Runway Gen-2, Pika, ElevenLabs, Suno v3, Udio, etc.) synthesized or manipulated this target media.
+Your mission is to perform AN ADVERSARIAL AI AUDIT CHECKING IF ANOTHER GENERATIVE AI ENGINE (Midjourney v5/v6, DALL-E 3, Stable Diffusion XL/3, Sora, Runway Gen-2, Pika, ElevenLabs, Suno v3, Udio, CGI/AI Animation, etc.) synthesized or manipulated this target media.
 
 AI-CHECKING-AI ADVERSARIAL AUDIT PRINCIPLES:
-1. "AI_GENERATED": Media synthesized entirely by AI algorithms. Inspect for latent diffusion grid noise, plastic skin subsurface scattering absence, background line warping/melting, pupil asymmetry, ear deformities, vocoder phase breaks, robotic pitch smoothing.
+1. "AI_GENERATED": Media synthesized entirely by AI algorithms, AI animations, cartoon voice generation, or neural models. Inspect for latent diffusion grid noise, plastic skin subsurface scattering absence, background line warping/melting, pupil asymmetry, ear deformities, vocoder phase breaks, robotic pitch smoothing.
 2. "REAL": Authentic optical or acoustic capture. Physical geometry, natural pupil catchlights, sub-surface scattering, shutter motion blur, and acoustic room impulse responses are consistent.
 3. "MANIPULATIVE": Real media altered or deepfaked (face-swapping, object insertion, voice cloning, out-of-context audio splicing).
 4. "INCONCLUSIVE": Low resolution or blurred content preventing conclusive neural inspection.
 
-AI DISCRIMINATOR CHECKLIST BEFORE SCORING:
-- Anatomical: Pupils (roundness/catchlights), fingers, skin texture, teeth boundaries.
-- Physics: Lighting consistency, shadow angles, reflection fidelity in eyes/mirrors.
-- Geometry & Semantics: Straightness of background lines, readability of background text, coherence of crowded scenes.
-- Audio Spectral: Vocoder pitch smoothing, phase continuity, ambient room tone.
-
-TARGET MEDIA FOR AI-CHECKING-AI AUDIT:
+TARGET MEDIA METADATA FOR AI-CHECKING-AI AUDIT:
 URL: ${url}
+Fetched Media Title: "${metadata.title || 'N/A'}"
+Publisher / Author Channel: "${metadata.author || 'N/A'}"
+AI Metadata Signal Flagged: ${metadata.isAiMetadata ? 'YES (AI/Animation/Synthetic Hashtags or Author Name Detected)' : 'NO'}
 Media Category: ${category}
 Scan Mode: ${mode}
 Language Context: ${language}
@@ -415,7 +474,7 @@ Return ONLY a valid JSON object matching this exact schema:
     const text = await getGoogleGeneration(prompt);
     const parsed = extractJsonFromText(text);
 
-    const verdict = determineVerdictFromText(text, parsed, url);
+    const verdict = determineVerdictFromText(text, parsed, url, metadata);
 
     let formattedText = text;
     if (parsed) {
