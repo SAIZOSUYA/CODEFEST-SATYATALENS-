@@ -128,12 +128,36 @@ app.post('/api/verify-link', async (req, res) => {
 
 function detectCategory(url) {
   const lower = String(url || '').toLowerCase();
-  if (lower.includes('youtube.com') || lower.includes('youtu.be') || lower.includes('spotify.com') || lower.includes('soundcloud.com') || lower.includes('vimeo.com') || lower.includes('tiktok.com')) {
-    return 'video_or_audio';
-  }
-  if (lower.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) || lower.includes('instagram.com') || lower.includes('pinterest.com')) {
+  
+  if (
+    lower.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg|tiff)(\?.*)?$/i) ||
+    lower.includes('/photo') ||
+    lower.includes('/image') ||
+    lower.includes('instagram.com/p/') ||
+    lower.includes('unsplash.com') ||
+    lower.includes('imgur.com') ||
+    lower.includes('pinterest.com') ||
+    lower.includes('flickr.com')
+  ) {
     return 'image';
   }
+
+  if (
+    lower.includes('youtube.com') ||
+    lower.includes('youtu.be') ||
+    lower.includes('spotify.com') ||
+    lower.includes('soundcloud.com') ||
+    lower.includes('vimeo.com') ||
+    lower.includes('tiktok.com') ||
+    lower.match(/\.(mp4|webm|avi|mov|mkv|mp3|wav|m4a|aac|flac)(\?.*)?$/i)
+  ) {
+    return 'video_or_audio';
+  }
+
+  if (lower.includes('picture') || lower.includes('photo') || lower.includes('graphic') || lower.includes('art')) {
+    return 'image';
+  }
+
   return 'video_or_audio';
 }
 

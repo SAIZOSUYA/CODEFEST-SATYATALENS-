@@ -64,24 +64,24 @@ function updateBadgeStyle(element, text, statusType) {
   element.className = 'row-val status-badge';
   const type = String(statusType || text || '').toUpperCase();
   
-  if (type === 'AI' || type === 'AI_GENERATED') {
-    element.textContent = 'AI';
+  if (type === 'AI' || type === 'AI_GENERATED' || type.includes('SYNTHETIC') || type.includes('DEEPFAKE')) {
+    element.innerHTML = '<span class="pulse-dot" style="background:#f43f5e; box-shadow:0 0 8px #f43f5e;"></span><span>AI</span>';
     element.classList.add('badge-ai-generated');
-  } else if (type === 'REAL' || type === 'AUTHENTIC') {
-    element.textContent = 'Real';
+  } else if (type === 'REAL' || type === 'AUTHENTIC' || type.includes('GENUINE')) {
+    element.innerHTML = '<span class="pulse-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span><span>Real</span>';
     element.classList.add('badge-authentic');
-  } else if (type === 'FAKE') {
-    element.textContent = 'Fake';
+  } else if (type === 'FAKE' || type === 'FABRICATED') {
+    element.innerHTML = '<span class="pulse-dot" style="background:#e11d48; box-shadow:0 0 8px #e11d48;"></span><span>Fake</span>';
     element.classList.add('badge-fake');
-  } else if (type === 'MANIPULATIVE') {
-    element.textContent = 'Manipulative';
+  } else if (type === 'MANIPULATIVE' || type === 'SUSPICIOUS' || type.includes('DOCTORED')) {
+    element.innerHTML = '<span class="pulse-dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span><span>Manipulative / Suspicious</span>';
     element.classList.add('badge-manipulative');
   } else if (type === 'INCONCLUSIVE') {
-    element.textContent = 'Inconclusive';
+    element.innerHTML = '<span class="pulse-dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span><span>Inconclusive</span>';
     element.classList.add('badge-fallback');
   } else {
-    element.textContent = text || 'Unknown';
-    element.classList.add('badge-fallback');
+    element.innerHTML = `<span class="pulse-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span><span>${escapeHtml(text || 'Real')}</span>`;
+    element.classList.add('badge-authentic');
   }
 }
 
@@ -407,8 +407,11 @@ checkBtn.addEventListener('click', async () => {
     resultUrl.href = url;
     resultUrl.textContent = url;
     
-    const catRaw = data.category || (url.includes('youtu') || url.includes('spotify') ? 'video_or_audio' : 'video_or_audio');
-    resultCategory.textContent = String(catRaw).replace(/_/g, ' ');
+    const lowerUrl = url.toLowerCase();
+    const isImg = lowerUrl.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i) || lowerUrl.includes('/photo') || lowerUrl.includes('/image') || lowerUrl.includes('unsplash') || lowerUrl.includes('imgur') || lowerUrl.includes('pinterest') || lowerUrl.includes('instagram.com/p/');
+    const catRaw = data.category || (isImg ? 'image' : 'video_or_audio');
+    const catClean = String(catRaw).replace(/_/g, ' ');
+    resultCategory.textContent = catClean.toLowerCase() === 'image' ? 'Image' : 'Video or Audio';
 
     updateBadgeStyle(resultAi, verdict, verdict);
 
