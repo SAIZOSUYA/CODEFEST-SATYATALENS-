@@ -338,9 +338,33 @@ async function fetchWithRetry(endpointUrl, options = {}, retries = 1, delay = 40
 
 function generateClientFallbackResult(url) {
   const lower = String(url || '').toLowerCase();
-  const isSoraOrAi = lower.includes('sora') || lower.includes('midjourney') || lower.includes('elevenlabs') || lower.includes('runway') || lower.includes('ai-generated') || lower.includes('aigenerated');
-  const isFake = lower.includes('fake') || lower.includes('hoax');
-  const isManip = lower.includes('doctored') || lower.includes('faceswap') || lower.includes('spliced');
+  const isSoraOrAi = (
+    lower.includes('sora') ||
+    lower.includes('midjourney') ||
+    lower.includes('elevenlabs') ||
+    lower.includes('runway') ||
+    lower.includes('pika') ||
+    lower.includes('leonardo') ||
+    lower.includes('nightcafe') ||
+    lower.includes('civitai') ||
+    lower.includes('dall-e') ||
+    lower.includes('dalle') ||
+    lower.includes('deepai') ||
+    lower.includes('tensor') ||
+    lower.includes('lexica') ||
+    lower.includes('heygen') ||
+    lower.includes('synthesia') ||
+    lower.includes('suno') ||
+    lower.includes('udio') ||
+    lower.includes('fal.media') ||
+    lower.includes('ai-generated') ||
+    lower.includes('aigenerated') ||
+    lower.includes('ai_generated') ||
+    lower.includes('synth') ||
+    lower.includes('deepfake')
+  );
+  const isFake = lower.includes('fake') || lower.includes('hoax') || lower.includes('false');
+  const isManip = lower.includes('doctored') || lower.includes('faceswap') || lower.includes('spliced') || lower.includes('manipulated');
 
   let verdict = 'REAL';
   let conf = 96;

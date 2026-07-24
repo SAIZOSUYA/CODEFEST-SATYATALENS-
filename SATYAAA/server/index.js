@@ -259,22 +259,39 @@ function extractJsonFromText(text) {
 
 function preCheckUrlClassification(url) {
   try {
-    const parsedUrl = new URL(url);
-    const host = parsedUrl.hostname.toLowerCase();
+    const lower = String(url || '').toLowerCase();
 
     if (
-      host.includes('sora.com') ||
-      host.includes('runwayml.com') ||
-      host.includes('midjourney.com') ||
-      host.includes('elevenlabs.io') ||
-      host.includes('pika.art') ||
-      host.includes('suno.com') ||
-      host.includes('udio.com') ||
-      host.includes('heygen.com') ||
-      host.includes('synthesia.io')
+      lower.includes('sora.com') ||
+      lower.includes('runwayml') ||
+      lower.includes('midjourney') ||
+      lower.includes('elevenlabs') ||
+      lower.includes('pika.art') ||
+      lower.includes('suno.com') ||
+      lower.includes('udio.com') ||
+      lower.includes('heygen') ||
+      lower.includes('synthesia') ||
+      lower.includes('civitai') ||
+      lower.includes('dall-e') ||
+      lower.includes('dalle') ||
+      lower.includes('leonardo.ai') ||
+      lower.includes('nightcafe') ||
+      lower.includes('deepai') ||
+      lower.includes('tensor.art') ||
+      lower.includes('lexica') ||
+      lower.includes('fal.media') ||
+      lower.includes('stability.ai') ||
+      lower.includes('ai-generated') ||
+      lower.includes('aigenerated') ||
+      lower.includes('ai_generated') ||
+      lower.includes('synthetic') ||
+      lower.includes('deepfake')
     ) {
       return 'AI';
     }
+
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.toLowerCase();
 
     if (
       host.endsWith('ekantipur.com') ||
@@ -292,18 +309,21 @@ function preCheckUrlClassification(url) {
 }
 
 function determineVerdictFromText(text, parsed, url) {
-  // 1. Primary Authority: Gemini AI's explicit JSON verdict
-  if (parsed && parsed.verdict) {
-    const v = String(parsed.verdict).toUpperCase().trim();
-    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('DEEPFAKE') || v.includes('SORA')) return 'AI';
+  const lowerUrl = String(url || '').toLowerCase();
+  
+  // 1. Explicit AI keywords/domains check
+  const urlHeuristic = preCheckUrlClassification(url);
+  if (urlHeuristic === 'AI') return 'AI';
+
+  // 2. Primary Authority: Gemini AI's explicit JSON verdict
+  if (parsed) {
+    const v = String(parsed.verdict || parsed.classification || parsed.status || '').toUpperCase().trim();
+    if (v === 'AI' || v === 'AI_GENERATED' || v.includes('SYNTHETIC') || v.includes('DEEPFAKE') || v.includes('SORA') || v.includes('GENERATED')) return 'AI';
     if (v === 'FAKE' || v === 'FABRICATED' || v.includes('HOAX')) return 'FAKE';
     if (v === 'MANIPULATIVE' || v === 'SUSPICIOUS' || v.includes('MISLEADING') || v.includes('DOCTORED')) return 'MANIPULATIVE';
     if (v === 'REAL' || v === 'AUTHENTIC' || v.includes('GENUINE')) return 'REAL';
-  }
 
-  // 2. Strict JSON Booleans check
-  if (parsed) {
-    if (parsed.is_ai === true || parsed.is_ai_generated === true) return 'AI';
+    if (parsed.is_ai === true || parsed.is_ai_generated === true || parsed.is_synthetic === true || parsed.is_deepfake === true) return 'AI';
     if (parsed.is_fake === true) return 'FAKE';
     if (parsed.is_manipulative === true || parsed.is_suspicious === true) return 'MANIPULATIVE';
     if (parsed.is_real === true || parsed.is_authentic === true) return 'REAL';
@@ -313,13 +333,12 @@ function determineVerdictFromText(text, parsed, url) {
   const body = String(text || '').replace(/[\s\S]*CLASSIFICATION DIRECTIVES[\s\S]*?schema:/i, '');
   const upper = body.toUpperCase();
 
-  if (upper.includes('"VERDICT": "AI"') || upper.includes('"VERDICT": "AI_GENERATED"') || upper.includes('"IS_AI": TRUE')) return 'AI';
-  if (upper.includes('"VERDICT": "FAKE"') || upper.includes('"VERDICT": "FABRICATED"') || upper.includes('"IS_FAKE": TRUE')) return 'FAKE';
-  if (upper.includes('"VERDICT": "MANIPULATIVE"') || upper.includes('"VERDICT": "SUSPICIOUS"') || upper.includes('"IS_MANIPULATIVE": TRUE')) return 'MANIPULATIVE';
-  if (upper.includes('"VERDICT": "REAL"') || upper.includes('"VERDICT": "AUTHENTIC"') || upper.includes('"IS_REAL": TRUE')) return 'REAL';
+  if (upper.includes('"VERDICT": "AI"') || upper.includes('"VERDICT": "AI_GENERATED"') || upper.includes('"IS_AI": TRUE') || upper.includes('VERDICT: AI') || upper.includes('SYNTHETIC MEDIA DETECTED')) return 'AI';
+  if (upper.includes('"VERDICT": "FAKE"') || upper.includes('"VERDICT": "FABRICATED"') || upper.includes('"IS_FAKE": TRUE') || upper.includes('VERDICT: FAKE')) return 'FAKE';
+  if (upper.includes('"VERDICT": "MANIPULATIVE"') || upper.includes('"VERDICT": "SUSPICIOUS"') || upper.includes('"IS_MANIPULATIVE": TRUE') || upper.includes('VERDICT: MANIPULATIVE')) return 'MANIPULATIVE';
+  if (upper.includes('"VERDICT": "REAL"') || upper.includes('"VERDICT": "AUTHENTIC"') || upper.includes('"IS_REAL": TRUE') || upper.includes('VERDICT: REAL')) return 'REAL';
 
-  // 4. Last Resort Heuristic Fallback ONLY if AI produced no response
-  const urlHeuristic = preCheckUrlClassification(url);
+  // 4. Last Resort Heuristic Fallback
   if (urlHeuristic) return urlHeuristic;
 
   return 'REAL';
