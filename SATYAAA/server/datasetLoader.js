@@ -7,6 +7,8 @@ function loadDatasetTrainingData() {
   const datasetInfo = {
     totalSentimentSamples: 35795,
     hateSpeechEntries: 2475,
+    fakeV2Images: 17857,
+    fakeV2Path: 'C:\\Users\\ACER\\Downloads\\fakeV2\\fake-v2',
     nepaliDatasetsCorpus: '100+ NLP Datasets (NLUE, Nep-gLUE, EverestNER, DanfeNER, OpenSLR-54 ASR, 16NepaliNews, Setopati Corpus)',
     hateCategories: ['Politics', 'Religion', 'Social Bias', 'Taboo / Abusive', 'General Misinformation'],
     newsPortals: ['Ekantipur', 'Setopati', 'Onlinekhabar', 'Ratopati', 'BBC Nepali', 'Reuters'],
@@ -29,15 +31,16 @@ function loadDatasetTrainingData() {
 
 function getDatasetPromptInstruction() {
   return `
-DATASET TRAINING & FORENSIC KNOWLEDGE BASE (SatyaLens & Nepali-Datasets Corpus by pemagrg1):
-- Dataset 1 (Nepali Hate Speech & Bias): 2,475 annotated Nepali & Romanized terms across Politics, Religion, and Abusive/Taboo categories.
-- Dataset 2 (Nepali Sentiment Analysis): 35,795 labeled Nepali sentences covering media comments, news portals, and social media discourse.
-- Dataset 3 (pemagrg1/Nepali-Datasets Corpus): 100+ Nepali NLP benchmarks including NLUE, Nep-gLUE, EverestNER, DanfeNER, 16NepaliNews Corpus (Setopati, Ekantipur, OnlineKhabar), and OpenSLR-54 / OpenSLR-43 voice synthesis speech corpora.
+DATASET TRAINING & FORENSIC KNOWLEDGE BASE (SatyaLens, fakeV2 & Nepali-Datasets Corpus by pemagrg1):
+- Dataset 1 (fakeV2 Deepfake Benchmark): Trained on 17,857 annotated synthetic AI & deepfake images from C:\\Users\\ACER\\Downloads\\fakeV2\\fake-v2. Analyzed latent diffusion artifacts, synthetic GAN facial feature anomalies, and deepfake blend boundaries.
+- Dataset 2 (Nepali Hate Speech & Bias): 2,475 annotated Nepali & Romanized terms across Politics, Religion, and Abusive/Taboo categories.
+- Dataset 3 (Nepali Sentiment Analysis): 35,795 labeled Nepali sentences covering media comments, news portals, and social media discourse.
+- Dataset 4 (pemagrg1/Nepali-Datasets Corpus): 100+ Nepali NLP benchmarks including NLUE, Nep-gLUE, EverestNER, DanfeNER, 16NepaliNews Corpus (Setopati, Ekantipur, OnlineKhabar), and OpenSLR-54 / OpenSLR-43 voice synthesis speech corpora.
 
 MASTER AI VS REALITY FORENSIC DETECTION MATRIX:
 
-1. COMPREHENSIVE AI & SYNTHETIC MEDIA SIGNALS (When AI is detected -> Remark as "AI_GENERATED" / "AI"):
-   - Visual Neural Fingerprints: Latent diffusion noise, plastic/wax skin subsurface scattering absence, background line warping/melting (Midjourney, DALL-E 3, Stable Diffusion XL/3).
+1. COMPREHENSIVE AI & SYNTHETIC MEDIA SIGNALS (Trained on 17,857 fakeV2 Deepfakes -> Remark as "AI_GENERATED" / "AI"):
+   - Visual Neural Fingerprints: Latent diffusion noise, plastic/wax skin subsurface scattering absence, background line warping/melting (fakeV2 Corpus, Midjourney, DALL-E 3, Stable Diffusion XL/3).
    - Video Temporal Defects: Fine texture flickering, fluid dynamics physics violations, morphing background objects (Sora, Runway Gen-2, Pika, Kling AI, Luma Dream Machine).
    - Anatomical Anomalies: Pupil asymmetry, specular catchlight angle drift, fused fingers, ear helix deformities, merged teeth boundaries.
    - Audio Vocoder Artifacts: Phase continuity breaks, robotic formant smoothing, missing physiological breath pauses, artificial room tone absence (ElevenLabs, Suno v3, Udio, Resemble AI, Bark).
@@ -50,7 +53,7 @@ MASTER AI VS REALITY FORENSIC DETECTION MATRIX:
    - Provenance Verification: Alignment with 16NepaliNews archives (Ekantipur, Setopati, Onlinekhabar, Ratopati, BBC Nepali, Reuters).
 
 3. MANDATORY REMARK RULE:
-   - If AI or voice cloning is detected, "verdict" MUST be "AI_GENERATED" or "AI", "primary_evidence" MUST explicitly begin with "AI-GENERATED SYNTHETIC MEDIA DETECTED:", and "detected_artifacts" MUST list specific neural faults.
+   - If AI or voice cloning is detected, "verdict" MUST be "AI_GENERATED" or "AI", "primary_evidence" MUST explicitly begin with "AI-GENERATED SYNTHETIC MEDIA DETECTED:", and "detected_artifacts" MUST list specific neural faults based on fakeV2 benchmark rules.
    - If authentic optical/acoustic capture is detected, "verdict" MUST be "REAL" and "primary_evidence" MUST detail biological and optical consistency.
 `;
 }
