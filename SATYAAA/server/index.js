@@ -133,11 +133,11 @@ function detectCategory(url) {
 
 async function getGoogleGeneration(prompt) {
   const models = [
-    'gemini-2.5-flash',
+    'gemini-3.6-flash',
+    'gemini-flash-latest',
+    'gemini-3.5-flash',
     'gemini-2.0-flash',
-    'gemini-1.5-flash',
-    'gemini-1.5-flash-latest',
-    'gemini-pro'
+    'gemini-flash-lite-latest'
   ];
 
   let lastError;
