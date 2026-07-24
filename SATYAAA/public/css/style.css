@@ -102,8 +102,8 @@ body {
   height: 580px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.28;
-  filter: blur(4px) drop-shadow(0 0 35px rgba(225, 29, 72, 0.5));
+  opacity: 0.45;
+  filter: blur(3px) drop-shadow(0 0 40px rgba(225, 29, 72, 0.6));
 }
 
 .auth-bg-logo img {
@@ -375,8 +375,8 @@ body.light-mode .bg-glow {
 }
 
 body.light-mode .auth-bg-logo {
-  opacity: 0.28;
-  filter: blur(5px) drop-shadow(0 0 25px rgba(225, 29, 72, 0.2));
+  opacity: 0.48;
+  filter: blur(3px) drop-shadow(0 0 30px rgba(225, 29, 72, 0.35));
 }
 
 .auth-hero-left {
