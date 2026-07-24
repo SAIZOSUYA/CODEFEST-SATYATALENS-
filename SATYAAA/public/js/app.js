@@ -147,12 +147,12 @@ function formatReportText(text, json) {
     const primEvid = json.primary_evidence || json.damningEvidence;
     if (primEvid) {
       html += `
-        <div class="report-section-card" style="border-left: 3px solid var(--accent); background: rgba(244, 63, 94, 0.08);">
-          <div class="section-card-title" style="color: #fda4af;">
+        <div class="report-section-card primary-evidence-card">
+          <div class="section-card-title primary-evid-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <span>Primary Decisive Evidence</span>
           </div>
-          <div class="section-card-body" style="color: #fecdd3; font-weight: 500;">
+          <div class="section-card-body primary-evid-body">
             ${escapeHtml(primEvid)}
           </div>
         </div>`;
@@ -191,12 +191,12 @@ function formatReportText(text, json) {
     const uncert = json.uncertainty_flag || json.uncertaintyFlag;
     if (uncert && uncert !== 'null' && uncert !== 'None' && !String(uncert).includes('None (High Clarity')) {
       html += `
-        <div class="report-section-card" style="border-left: 3px solid #f59e0b; background: rgba(245, 158, 11, 0.08);">
-          <div class="section-card-title" style="color: #fde68a;">
+        <div class="report-section-card uncertainty-card">
+          <div class="section-card-title uncertainty-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span>Uncertainty & Resolution Note</span>
           </div>
-          <div class="section-card-body" style="color: #fef08a;">
+          <div class="section-card-body uncertainty-body">
             ${escapeHtml(uncert)}
           </div>
         </div>`;

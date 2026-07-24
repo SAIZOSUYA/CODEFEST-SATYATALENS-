@@ -272,11 +272,70 @@ body.light-mode .report-section-card {
 }
 
 body.light-mode .section-card-title {
-  color: #be123c;
+  color: #be123c !important;
 }
 
 body.light-mode .section-card-body {
-  color: #1e293b;
+  color: #0f172a !important;
+  font-weight: 500;
+}
+
+.primary-evidence-card {
+  border-left: 4px solid #f43f5e !important;
+  background: rgba(244, 63, 94, 0.12) !important;
+}
+
+.primary-evid-title {
+  color: #fda4af !important;
+}
+
+.primary-evid-body {
+  color: #fecdd3;
+  font-weight: 500;
+}
+
+.uncertainty-card {
+  border-left: 4px solid #f59e0b !important;
+  background: rgba(245, 158, 11, 0.1) !important;
+}
+
+.uncertainty-title {
+  color: #fde68a !important;
+}
+
+.uncertainty-body {
+  color: #fef08a;
+  font-weight: 500;
+}
+
+body.light-mode .primary-evidence-card {
+  background: rgba(254, 226, 226, 0.95) !important;
+  border-left: 4px solid #e11d48 !important;
+  border-color: rgba(225, 29, 72, 0.35) !important;
+}
+
+body.light-mode .primary-evid-title {
+  color: #9f1239 !important;
+}
+
+body.light-mode .primary-evid-body {
+  color: #881337 !important;
+  font-weight: 700;
+}
+
+body.light-mode .uncertainty-card {
+  background: rgba(254, 243, 199, 0.95) !important;
+  border-left: 4px solid #d97706 !important;
+  border-color: rgba(217, 119, 6, 0.35) !important;
+}
+
+body.light-mode .uncertainty-title {
+  color: #b45309 !important;
+}
+
+body.light-mode .uncertainty-body {
+  color: #78350f !important;
+  font-weight: 700;
 }
 
 body.light-mode .result-row {
