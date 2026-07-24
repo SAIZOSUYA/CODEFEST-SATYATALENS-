@@ -771,7 +771,13 @@ async function checkGoogleApiStatus() {
   }
 }
 
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`SATYAAA running on http://localhost:${PORT}`);
   await checkGoogleApiStatus();
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use by another Node process. Stop existing process or restart.`);
+  }
 });
