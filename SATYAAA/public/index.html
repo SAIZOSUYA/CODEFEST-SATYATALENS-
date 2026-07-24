@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>सत्यता Lens | Media Authenticity & Deepfake Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@700;800&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="bg-grid"></div>
+
+  <div class="page">
+    <!-- Auth Panel (Full Page Split Hero Layout) -->
+    <div class="auth-panel-wrapper" id="authPanel">
+      <div class="auth-hero-left">
+        <div class="hero-brand">
+          <img src="img/satya-shield-logo.svg" alt="सत्यता Lens Emblem Logo" class="hero-logo-img" />
+          <div class="hero-brand-text">
+            <span class="title-devanagari">सत्यता</span>
+            <span class="title-english">Lens</span>
+          </div>
+        </div>
+        <h1 class="hero-title">Next-Gen Media Authenticity & Deepfake Intelligence</h1>
+        <p class="hero-subtitle">Advanced AI forensic scanner for synthetic video/audio detection, deepfakes, and Nepali news portal cross-referencing.</p>
+        
+        <div class="hero-features">
+          <div class="hero-feature-item">
+            <div class="feature-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <strong>Synthetic Media Detection</strong>
+              <span>Identifies Sora, Midjourney, ElevenLabs voice cloning & facial deepfakes.</span>
+            </div>
+          </div>
+          <div class="hero-feature-item">
+            <div class="feature-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div>
+              <strong>Nepali News & Handle Crosscheck</strong>
+              <span>Trained on 35k+ Nepali sentiment records and news portals.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-card-right">
+        <div class="card-header">
+          <h2>Account Access</h2>
+          <p>Sign in to access your media scanner portal</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" id="email" placeholder="name@example.com" required autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
+            </div>
+          </div>
+
+          <button type="submit" class="primary-btn">
+            <span>Sign In to Portal</span>
+            <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+
+        <div class="security-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>End-to-End Encrypted Verification Workspace</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Main Panel (Post-Login Dashboard) -->
+    <div class="panel app-panel hide" id="appPanel">
+      <header class="app-header">
+        <div class="brand-sm">
+          <img src="img/satya-shield-logo.svg" alt="सत्यता Lens Emblem Logo" class="logo-img-sm" />
+          <div>
+            <div class="brand-text">
+              <span class="title-devanagari">सत्यता</span>
+              <span class="title-english">Lens</span>
+            </div>
+            <p>Verify whether media link is authentic or AI-generated.</p>
+          </div>
+        </div>
+        <button class="ghost" id="logoutBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </button>
+      </header>
+
+      <section class="verify-card">
+        <div class="form-group">
+          <label for="mediaUrl">Media URL</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <input type="url" id="mediaUrl" placeholder="Paste YouTube, Spotify, video or image URL" />
+          </div>
+        </div>
+
+        <div class="sample-container">
+          <button type="button" class="ghost sample-btn" id="sampleLinkBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            <span>Load Sample Link</span>
+          </button>
+        </div>
+
+        <button id="checkBtn" class="primary-btn">
+          <span class="btn-text">Analyze Authenticity</span>
+          <div class="spinner hide" id="btnSpinner"></div>
+        </button>
+      </section>
+
+      <!-- Verification Result Card -->
+      <section class="result-card hide" id="resultCard">
+        <div class="result-header">
+          <div class="status-indicator" id="statusIndicator"></div>
+          <h2>Verification Result</h2>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-row">
+            <span class="row-label">Media Link</span>
+            <a class="row-val link-val" id="resultUrl" href="#" target="_blank" rel="noopener"></a>
+          </div>
+
+          <div class="result-row">
+            <span class="row-label">Category</span>
+            <span class="row-val badge-category" id="resultCategory"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="row-label">AI Status</span>
+            <span class="row-val status-badge" id="resultAi"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="row-label">Confidence</span>
+            <span class="row-val confidence-badge" id="resultConfidence">98% (High)</span>
+          </div>
+
+          <div class="result-row">
+            <span class="row-label">Source</span>
+            <span class="row-val" id="resultSource">N/A</span>
+          </div>
+
+          <div class="result-row">
+            <span class="row-label">Upload Date</span>
+            <span class="row-val" id="resultUploadDate">N/A</span>
+          </div>
+
+          <div class="result-row full-width">
+            <span class="row-label">Full Report & Findings</span>
+            <div class="report-box" id="resultReport"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

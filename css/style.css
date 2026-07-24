@@ -1,0 +1,20 @@
+/* Basic layout and navbar styles for Satya page */
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #111; }
+#Satyatalogo { position: fixed; left: 12px; top: 8px; display: flex; flex-direction: column; align-items: center; gap:4px; }
+#Satyatalogo img { display:block; }
+.navbar { list-style: none; margin: 72px 0 0 12px; padding: 0; width: 96px; position: fixed; left: 12px; top: 72px; }
+.navbar li { margin: 8px 0; text-align: center; }
+.navbar a { color: inherit; text-decoration: none; font-size: 12px; display: block; }
+.navbar .icon { width: 48px; height: 48px; display: block; margin: 0 auto 6px auto; }
+.navsep { height: 8px; border-top: 1px solid rgba(0,0,0,0.06); margin: 8px 0; }
+#body-content { margin-left: 132px; padding: 20px; }
+.form-action { display: none; }
+.form-action.show { display: block; }
+.button { padding: 8px 12px; border: none; background: #2563eb; color: #fff; border-radius: 4px; cursor: pointer; }
+.accordion { background: #f3f4f6; border: none; padding: 8px; width: 100%; text-align: left; cursor: pointer; }
+.panel { display: none; padding: 8px; background: #fff; border: 1px solid #e5e7eb; margin-bottom: 8px; }
+.loader { display: none; }
+@media (max-width: 640px) {
+  .navbar { position: relative; display:flex; flex-direction:row; width:100%; overflow-x:auto; margin: 64px 0 0 0; }
+  #body-content { margin-left: 0; padding: 12px; }
+}
