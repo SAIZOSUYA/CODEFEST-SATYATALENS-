@@ -560,7 +560,12 @@ function checkAndPromptCyberBureau(verdict, json, rawText, mediaTarget) {
     return;
   }
 
-  const isManipulativeOrFake = (vUpper === 'FAKE' || vUpper === 'MANIPULATIVE');
+  const isManipulativeOrFake = (
+    vUpper === 'AI' || 
+    vUpper === 'AI_GENERATED' || 
+    vUpper === 'FAKE' || 
+    vUpper === 'MANIPULATIVE'
+  );
 
   if (isManipulativeOrFake) {
     if (cyberBanner) cyberBanner.classList.remove('hide');
