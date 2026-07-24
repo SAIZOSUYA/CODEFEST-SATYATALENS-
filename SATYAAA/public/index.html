@@ -222,7 +222,51 @@
             <div class="report-box" id="resultReport"></div>
           </div>
         </div>
+
+        <!-- Cyber Bureau Direct Action Banner inside Result Card -->
+        <div class="cyber-banner hide" id="cyberBanner">
+          <div class="cyber-banner-text">
+            <strong style="color: #f43f5e; display: flex; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Manipulative / Fake Incident Detected
+            </strong>
+            <span>Generate written evidence document and lodge report with Nepal Police Cyber Bureau.</span>
+          </div>
+          <button type="button" class="primary-btn report-cyber-trigger" id="reportCyberBtn">
+            <span>Report to Cyber Bureau</span>
+          </button>
+        </div>
       </section>
+    </div>
+  </div>
+
+  <!-- Cyber Bureau Reporting Modal Popup -->
+  <div class="modal-overlay hide" id="cyberModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="cyber-badge-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <h3>Report to Nepal Police Cyber Bureau</h3>
+          <p>Manipulative or Fabricated Media Detected by SatyaLens AI</p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p>SatyaLens AI has identified high-confidence evidence of <strong>fake, manipulative, or deepfaked content</strong> that may violate Nepal's Electronic Transactions Act.</p>
+        <div class="modal-info-box">
+          Clicking <strong>"Download Evidence & Open Cyber Bureau"</strong> will:
+          <br>1. Generate & download a formal <strong>Written Evidence Statement (.doc)</strong> detailing the media link, acoustic/visual faults, and forensic timeline.
+          <br>2. Redirect your browser to the official <strong>Nepal Police Cyber Bureau Complaint Portal</strong>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="ghost" id="cancelCyberBtn">Dismiss</button>
+        <button type="button" class="primary-btn cyber-confirm-btn" id="confirmCyberBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Download Evidence & Open Cyber Bureau</span>
+        </button>
+      </div>
     </div>
   </div>
 
