@@ -164,8 +164,8 @@ body.light-mode {
   --panel-border-hover: rgba(244, 63, 94, 0.5);
   
   --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-dim: #64748b;
+  --text-muted: #334155;
+  --text-dim: #475569;
   
   background-color: #f1f5f9;
   color: #0f172a;
@@ -174,15 +174,121 @@ body.light-mode {
 body.light-mode .hero-title,
 body.light-mode .card-header h2,
 body.light-mode .result-header h2,
-body.light-mode .hero-feature-item strong {
+body.light-mode .hero-feature-item strong,
+body.light-mode label,
+body.light-mode p,
+body.light-mode span,
+body.light-mode .row-label,
+body.light-mode .row-val {
   color: #0f172a;
+}
+
+body.light-mode .hero-subtitle,
+body.light-mode .hero-feature-item span,
+body.light-mode .card-header p,
+body.light-mode .brand-sm p {
+  color: #334155;
+  font-weight: 500;
+}
+
+/* Light Mode Buttons */
+body.light-mode .ghost {
+  background: rgba(225, 29, 72, 0.12);
+  color: #be123c !important;
+  border-color: rgba(225, 29, 72, 0.4);
+}
+
+body.light-mode .ghost span,
+body.light-mode .ghost svg {
+  color: #be123c !important;
+}
+
+body.light-mode .ghost:hover {
+  background: rgba(225, 29, 72, 0.22);
+  color: #9f1239 !important;
+  border-color: rgba(225, 29, 72, 0.7);
+}
+
+body.light-mode .primary-btn {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.35);
+}
+
+body.light-mode .sample-btn {
+  color: #be123c !important;
+  border-color: rgba(225, 29, 72, 0.35);
+  background: rgba(225, 29, 72, 0.08);
+}
+
+body.light-mode .file-upload-label {
+  background: rgba(241, 245, 249, 0.9);
+  color: #0f172a !important;
+  border-color: rgba(225, 29, 72, 0.3);
+}
+
+body.light-mode .file-upload-label span,
+body.light-mode .file-upload-label svg {
+  color: #0f172a !important;
+}
+
+body.light-mode .record-btn {
+  background: rgba(244, 63, 94, 0.15);
+  color: #be123c !important;
+  border-color: rgba(244, 63, 94, 0.45);
+}
+
+body.light-mode .record-btn span {
+  color: #be123c !important;
+}
+
+body.light-mode .audio-preview-container {
+  background: rgba(241, 245, 249, 0.95);
+  border-color: rgba(203, 213, 225, 0.9);
+}
+
+body.light-mode .divider-text {
+  color: #64748b;
+}
+
+body.light-mode .security-badge {
+  color: #be123c;
+}
+
+body.light-mode .card-section-header h3 {
+  color: #0f172a;
+}
+
+body.light-mode .report-box {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  border-color: rgba(225, 29, 72, 0.25);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .report-section-card {
+  background: rgba(241, 245, 249, 0.85);
+  border-color: rgba(225, 29, 72, 0.2);
+}
+
+body.light-mode .section-card-title {
+  color: #be123c;
+}
+
+body.light-mode .section-card-body {
+  color: #1e293b;
+}
+
+body.light-mode .result-row {
+  background: rgba(241, 245, 249, 0.8);
+  border-color: rgba(225, 29, 72, 0.15);
 }
 
 body.light-mode .auth-card-right,
 body.light-mode .verify-card,
 body.light-mode .result-card,
 body.light-mode .hero-feature-item {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   border-color: rgba(225, 29, 72, 0.25);
   box-shadow: 0 16px 40px -10px rgba(225, 29, 72, 0.12);
 }
@@ -191,14 +297,18 @@ body.light-mode input[type="text"],
 body.light-mode input[type="email"],
 body.light-mode input[type="password"],
 body.light-mode input[type="url"] {
-  background: rgba(241, 245, 249, 0.9);
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a !important;
   border-color: rgba(203, 213, 225, 0.9);
 }
 
+body.light-mode input::placeholder {
+  color: #94a3b8;
+}
+
 body.light-mode .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.9);
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a !important;
   border-color: rgba(225, 29, 72, 0.4);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
@@ -213,11 +323,6 @@ body.light-mode .title-english {
   background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-body.light-mode .hero-subtitle {
-  color: #334155;
-  font-weight: 500;
 }
 
 body.light-mode .bg-glow {
