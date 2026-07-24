@@ -102,8 +102,8 @@ body {
   height: 580px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.22;
-  filter: blur(14px) drop-shadow(0 0 40px rgba(225, 29, 72, 0.6));
+  opacity: 0.28;
+  filter: blur(4px) drop-shadow(0 0 35px rgba(225, 29, 72, 0.5));
   animation: pulseLogoGlow 6s ease-in-out infinite alternate;
 }
 
@@ -115,15 +115,101 @@ body {
 
 @keyframes pulseLogoGlow {
   0% {
-    transform: translate(-50%, -50%) scale(0.96);
-    opacity: 0.18;
-    filter: blur(14px) drop-shadow(0 0 30px rgba(225, 29, 72, 0.4));
+    transform: translate(-50%, -50%) scale(0.97);
+    opacity: 0.24;
+    filter: blur(5px) drop-shadow(0 0 25px rgba(225, 29, 72, 0.4));
   }
   100% {
-    transform: translate(-50%, -50%) scale(1.04);
-    opacity: 0.28;
-    filter: blur(10px) drop-shadow(0 0 60px rgba(244, 63, 94, 0.7));
+    transform: translate(-50%, -50%) scale(1.03);
+    opacity: 0.34;
+    filter: blur(3px) drop-shadow(0 0 50px rgba(244, 63, 94, 0.65));
   }
+}
+
+/* Floating Light / Dark Mode Toggle Button */
+.theme-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background: rgba(18, 12, 28, 0.85);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  color: #f3f4f6;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.7);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Light Mode Theme Overrides */
+body.light-mode {
+  --bg-dark: #f8fafc;
+  --panel-bg: rgba(255, 255, 255, 0.94);
+  --panel-border: rgba(225, 29, 72, 0.25);
+  --panel-border-hover: rgba(244, 63, 94, 0.5);
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+body.light-mode .hero-title,
+body.light-mode .card-header h2,
+body.light-mode .result-header h2,
+body.light-mode .hero-feature-item strong {
+  color: #0f172a;
+}
+
+body.light-mode .auth-card-right,
+body.light-mode .verify-card,
+body.light-mode .result-card,
+body.light-mode .hero-feature-item {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(225, 29, 72, 0.25);
+  box-shadow: 0 16px 40px -10px rgba(225, 29, 72, 0.12);
+}
+
+body.light-mode input[type="text"],
+body.light-mode input[type="email"],
+body.light-mode input[type="password"],
+body.light-mode input[type="url"] {
+  background: rgba(241, 245, 249, 0.9);
+  color: #0f172a;
+  border-color: rgba(203, 213, 225, 0.9);
+}
+
+body.light-mode .theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .bg-glow {
+  opacity: 0.12;
+}
+
+body.light-mode .auth-bg-logo {
+  opacity: 0.38;
+  filter: blur(4px) drop-shadow(0 0 25px rgba(225, 29, 72, 0.25));
 }
 
 .auth-hero-left {

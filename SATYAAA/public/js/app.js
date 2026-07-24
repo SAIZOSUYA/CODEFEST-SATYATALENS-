@@ -513,3 +513,37 @@ if (checkAudioBtn) {
     }
   });
 }
+
+// --- Light / Dark Mode Theme Switcher ---
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeToggleText = document.getElementById('themeToggleText');
+const sunIcon = document.querySelector('.sun-icon');
+const moonIcon = document.querySelector('.moon-icon');
+
+function applyTheme(isLight) {
+  if (isLight) {
+    document.body.classList.add('light-mode');
+    if (themeToggleText) themeToggleText.textContent = 'Dark Mode';
+    if (sunIcon) sunIcon.classList.add('hide');
+    if (moonIcon) moonIcon.classList.remove('hide');
+  } else {
+    document.body.classList.remove('light-mode');
+    if (themeToggleText) themeToggleText.textContent = 'Light Mode';
+    if (sunIcon) sunIcon.classList.remove('hide');
+    if (moonIcon) moonIcon.classList.add('hide');
+  }
+}
+
+const savedTheme = localStorage.getItem('satya_theme');
+if (savedTheme === 'light') {
+  applyTheme(true);
+}
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const isLightNow = document.body.classList.contains('light-mode');
+    const nextIsLight = !isLightNow;
+    applyTheme(nextIsLight);
+    localStorage.setItem('satya_theme', nextIsLight ? 'light' : 'dark');
+  });
+}
