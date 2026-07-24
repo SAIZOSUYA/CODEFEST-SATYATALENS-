@@ -552,14 +552,15 @@ function checkAndPromptCyberBureau(verdict, json, rawText, mediaTarget) {
   };
 
   const vUpper = String(verdict || '').toUpperCase();
-  const rawUpper = String(rawText || '').toUpperCase();
 
-  const isManipulativeOrFake = 
-    vUpper === 'FAKE' || 
-    vUpper === 'MANIPULATIVE' || 
-    rawUpper.includes('MANIPULATIVE') || 
-    rawUpper.includes('FAKE') || 
-    rawUpper.includes('DEEPFAKE');
+  // If status is REAL or AUTHENTIC, NEVER show the complaint popup or banner
+  if (vUpper === 'REAL' || vUpper === 'AUTHENTIC') {
+    if (cyberBanner) cyberBanner.classList.add('hide');
+    if (cyberModal) cyberModal.classList.add('hide');
+    return;
+  }
+
+  const isManipulativeOrFake = (vUpper === 'FAKE' || vUpper === 'MANIPULATIVE');
 
   if (isManipulativeOrFake) {
     if (cyberBanner) cyberBanner.classList.remove('hide');
