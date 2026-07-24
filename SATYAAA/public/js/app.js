@@ -26,6 +26,12 @@ function showAppPanel() {
 function showAuthPanel() {
   authPanel.classList.remove('hide');
   appPanel.classList.add('hide');
+
+  const emailEl = document.getElementById('email');
+  const passwordEl = document.getElementById('password');
+  if (emailEl) emailEl.value = '';
+  if (passwordEl) passwordEl.value = '';
+  if (loginForm) loginForm.reset();
 }
 
 async function checkSession() {
@@ -83,6 +89,13 @@ loginForm.addEventListener('submit', async (event) => {
 
 logoutBtn.addEventListener('click', async () => {
   sessionStorage.removeItem('satya_user_logged');
+
+  const emailEl = document.getElementById('email');
+  const passwordEl = document.getElementById('password');
+  if (emailEl) emailEl.value = '';
+  if (passwordEl) passwordEl.value = '';
+  if (loginForm) loginForm.reset();
+
   try {
     await fetch('/api/logout', { method: 'POST' });
   } catch (e) {}
